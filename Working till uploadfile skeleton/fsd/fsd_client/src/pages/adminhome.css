@@ -1,0 +1,192 @@
+.admin-page {
+    display: flex;
+    height: 100vh;
+}
+
+.side-menu {
+    background-color: #333;
+    color: #dbd8d8;
+    padding: 15px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    cursor: pointer;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+    background-color: #555;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 1px;
+}
+
+.selected-option {
+    background-color: #333;
+    padding: 15px;
+    /* Slightly smaller padding */
+    position: relative;
+    /* or absolute, fixed, sticky */
+    height: 80px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #f6f3f3;
+    content: '';
+    position: absolute;
+    top: 10%;
+    /* Place the line vertically in the middle */
+    text-align: center;
+    margin-left: 500px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    /* 40% smaller padding */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item:hover {
+    background-color: #333;
+    /* Background color on hover */
+    transform: scale(1.03);
+    /* Slight scale up on hover */
+    color: #fff;
+    /* Text color on hover */
+}
+
+.menu-icon {
+    margin-right: 6px;
+    /* 25% smaller space between icon and name */
+    font-size: 18px;
+    /* 25% smaller icon size */
+    transition: all 0.3s ease-in-out;
+    /* Smooth transition for icon */
+}
+
+.menu-name {
+    font-size: 14px;
+    /* 30% smaller text size */
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    /* Smooth transition for text */
+}
+
+.menu-item:hover .menu-name {
+    letter-spacing: 0.5px;
+    /* Add dynamic letter spacing on hover */
+}
+
+.menu-toggle {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.menu-icon {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.bar {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+.hidden {
+    display: none;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+.menu-toggle .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #434141;
+    margin: 6px 0;
+}
+
+.menu-title {
+    margin-left: 40px;
+    margin-top: 1px;
+}
+
+.file-input-button {
+    display: inline-block;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 70px;
+}
+
+.file-input-button:hover {
+    background-color: #e0e0e0;
+}
+
+.file-input-button input {
+    display: none;
+    /* Hide the actual file input */
+}
+
+.sample-button {
+    margin-left: 5px;
+}
+
+.right-oriented-logout-button {
+    float: right;
+    /* or use text-align: right; */
+}
+
+.right-oriented-logout-button {
+    float: right;
+    /* or use text-align: right; */
+}
+
+.right-oriented-logout-button {
+    display: flex;
+    align-items: center;
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.right-oriented-logout-button:hover {
+    background-color: #2980b9;
+}
+
+.right-oriented-logout-button span {
+    margin-left: 10px;
+}
