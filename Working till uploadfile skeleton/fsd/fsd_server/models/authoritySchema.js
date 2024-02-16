@@ -8,7 +8,7 @@ const authoritySchema = new schema({
     username: String,
     station: String,
     email: String,
-    mobile_no: Number
+
 
 });
 
