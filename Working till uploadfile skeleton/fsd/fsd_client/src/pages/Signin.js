@@ -59,25 +59,38 @@ export default function Signin() {
   
         const data = await res.json()
   
-        if (res.status === 401) {
-          window.alert("Incorrect username or password");
-          navigate("/login");
-        }
-        else if (res.status === 402) {
-          window.alert("You Are still under Verification! please keep Patience  :)");
-        } else if (res.status === 200) {
+         if (res.status === 200) {
+          console.log(data);
+
           // window.alert("Login Successful!");
           // console.log(data)
           luser=username;
-          sessionStorage.setItem('authToken', data.authToken);
-          navigate("/home");
-        } else if (res.status === 202) {
+          // console.log("before");
+          sessionStorage.setItem('officerToken', data.officerToken);
+          // console.log("after");
+
+          navigate("/officerhome");
+        }  if (res.status === 202) {
           // window.alert("Admin login Successful!");
           uname=username; 
           // console.log("Admin Username "+uname);
           sessionStorage.setItem("adminToken", data.adminToken);
           navigate("/adminhome");
+        } if (res.status == 201) {
+          console.log(res.msg);
+          sessionStorage.setItem("mainadminToken", data.adminToken);
+
+        
+          navigate("/mainadminhome");
         }
+         if (res.status == 401) {
+          console.log("400001");
+          console.log(data);
+
+          window.alert("Incorrect username or password");
+          navigate("/login");
+        }
+
       }
       
     };

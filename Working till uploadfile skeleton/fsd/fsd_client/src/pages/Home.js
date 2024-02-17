@@ -1,14 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { luser } from './Signin';
 import Loader from './Loader';
 import Navbar2 from './navbar2';
+import { jwtDecode } from "jwt-decode";
+
 
 let gresult;
 let image;
 
-const Home = () => {
+const OfficerHome = () => {
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
   const navigate = useNavigate();
@@ -17,6 +19,22 @@ const Home = () => {
     setFile(event.target.files[0]);
     setUploaded(false);
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("officerToken"); // Retrieve the token from where you store it
+    console.log(token);
+
+  if (token) {
+    try {                           
+      const decodedToken = jwtDecode(token);
+      console.log("Decoded Token:", decodedToken);
+      
+      // Now you can access the decoded information like decodedToken.user.username
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
+}, []);
 
   const handleUpload = () => {
     // <Loader/>
@@ -68,5 +86,5 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default OfficerHome;
 export {gresult,image};

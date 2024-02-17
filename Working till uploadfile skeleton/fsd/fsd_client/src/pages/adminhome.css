@@ -1,7 +1,39 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+
+/* Container for the admin page */
+
 .admin-page {
     display: flex;
     height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
 }
+
+
+/* Container for the logo and menu toggle button */
+
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Logo styling */
+
+.logo {
+    color: #fff;
+    font-size: 24px;
+}
+
+
+/* Side menu styling */
 
 .side-menu {
     background-color: #333;
@@ -10,7 +42,11 @@
     width: 180px;
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease-in-out;
 }
+
+
+/* Styling for each menu item */
 
 .menu-item {
     cursor: pointer;
@@ -20,157 +56,70 @@
     transition: background-color 0.3s;
 }
 
-.menu-item:hover {
+
+/* Hover and active styles for menu items */
+
+.menu-item:hover,
+.menu-item.active {
     background-color: #555;
 }
 
+
+/* Main content styling */
+
 .main-content {
     flex-grow: 1;
-    padding: 1px;
+    padding: 15px;
 }
+
+
+/* Styling for the selected option container */
 
 .selected-option {
     background-color: #333;
     padding: 15px;
-    /* Slightly smaller padding */
     position: relative;
-    /* or absolute, fixed, sticky */
-    height: 80px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    color: #f6f3f3;
-    content: '';
-    position: absolute;
-    top: 10%;
-    /* Place the line vertically in the middle */
-    text-align: center;
-    margin-left: 500px;
-}
 
-.menu-item {
+/* Header styling within the main content */
+
+.header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 8px;
-    /* 40% smaller padding */
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    margin-bottom: 20px;
 }
 
-.menu-item:hover {
-    background-color: #333;
-    /* Background color on hover */
-    transform: scale(1.03);
-    /* Slight scale up on hover */
-    color: #fff;
-    /* Text color on hover */
-}
 
-.menu-icon {
-    margin-right: 6px;
-    /* 25% smaller space between icon and name */
-    font-size: 18px;
-    /* 25% smaller icon size */
-    transition: all 0.3s ease-in-out;
-    /* Smooth transition for icon */
-}
-
-.menu-name {
-    font-size: 14px;
-    /* 30% smaller text size */
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    /* Smooth transition for text */
-}
-
-.menu-item:hover .menu-name {
-    letter-spacing: 0.5px;
-    /* Add dynamic letter spacing on hover */
-}
+/* Styling for the menu toggle button */
 
 .menu-toggle {
     cursor: pointer;
-    margin-bottom: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
 }
 
-.menu-icon {
-    width: 30px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #333;
-    border-radius: 5px;
-    padding: 5px;
+
+/* Hover style for the menu toggle button */
+
+.menu-toggle:hover {
+    color: #555;
 }
 
-.bar {
-    width: 100%;
-    height: 3px;
-    background-color: #fff;
-    border-radius: 3px;
-}
+
+/* Hidden class to hide elements */
 
 .hidden {
     display: none;
 }
 
-.menu-toggle {
-    cursor: pointer;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-}
 
-.menu-toggle .bar {
-    width: 30px;
-    height: 3px;
-    background-color: #434141;
-    margin: 6px 0;
-}
-
-.menu-title {
-    margin-left: 40px;
-    margin-top: 1px;
-}
-
-.file-input-button {
-    display: inline-block;
-    padding: 8px 12px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    color: #333;
-    transition: background-color 0.3s, color 0.3s;
-    margin-top: 70px;
-}
-
-.file-input-button:hover {
-    background-color: #e0e0e0;
-}
-
-.file-input-button input {
-    display: none;
-    /* Hide the actual file input */
-}
-
-.sample-button {
-    margin-left: 5px;
-}
-
-.right-oriented-logout-button {
-    float: right;
-    /* or use text-align: right; */
-}
-
-.right-oriented-logout-button {
-    float: right;
-    /* or use text-align: right; */
-}
+/* Styling for the logout button */
 
 .right-oriented-logout-button {
     display: flex;
@@ -183,10 +132,44 @@ h2 {
     cursor: pointer;
 }
 
+
+/* Hover style for the logout button */
+
 .right-oriented-logout-button:hover {
     background-color: #2980b9;
 }
 
+
+/* Additional space for the text next to the logout button */
+
 .right-oriented-logout-button span {
     margin-left: 10px;
+}
+
+
+/* Additional Styles */
+
+
+/* Default content styling */
+
+.default-content {
+    text-align: center;
+    color: #333;
+}
+
+
+/* Collapsed class for collapsed menu */
+
+.collapsed {
+    margin-left: 60px;
+}
+
+
+/* Styling for the admin dashboard header */
+
+.admin-dashboard-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
 }

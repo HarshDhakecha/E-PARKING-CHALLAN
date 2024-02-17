@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -16,18 +16,15 @@ import { jwtDecode } from "jwt-decode";
 
 
 
-const AdminPage = () => {
+const MainAdminPage = () => {
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [menuVisible, setMenuVisible] = useState(true);
 
-  const handleOptionClick = async (option) => {
-    setSelectedOption(option);
-  };
-
   useEffect(() => {
-    const token = sessionStorage.getItem("adminToken"); // Retrieve the token from where you store it
+    const token = sessionStorage.getItem("mainadminToken"); // Retrieve the token from where you store it
     console.log(token);
-  
+
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
@@ -38,9 +35,12 @@ const AdminPage = () => {
       console.error("Error decoding token:", error);
     }
   }
-  }, []);
+}, []);
+  const handleOptionClick = async (option) => {
+    setSelectedOption(option);
+  };
 
-  const menuIcons = {
+  const menuIcons = {               
     ManageOfficers: faUser,
     AnnouncementMail: faEnvelope,
     Report: faChartBar,
@@ -53,6 +53,8 @@ const AdminPage = () => {
   const handleLogout = async () => {
     // Your logout logic here
   };
+
+
 
   return (
     <div className={`admin-page ${menuVisible ? '' : 'collapsed'}`}>
@@ -104,7 +106,7 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default MainAdminPage;
 
 
 

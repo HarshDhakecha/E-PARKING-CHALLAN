@@ -1,27 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./generalComponent.css";
 import GenralComponent2 from "./GeneralComponent2";
 import ClipLoader from "react-spinners/ClipLoader";
 import { jwtDecode } from 'jwt-decode';
-import { css } from "@emotion/react";
 import { uname } from "./Signin";
 
 const GenralComponent = (option) => {
-
   const [detailsData, setDetailsData] = useState([]);
   const [officers, setOfficers] = useState([]);
   const [username, setUsername] = useState(null);
   const [searchUsername, setSearchUsername] = useState("");
+  const [adminobj, setadminobj] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showDetailsData, setshowDetailsData] = useState(false);
   const [expandedIndices, setExpandedIndices] = useState([]);
-
   const [addOfficerForm, setAddOfficerForm] = useState({
     name: "",
     password: "",
     username: "",
     email: "",
-    
   });
   const [selectedOption, setSelectedOption] = useState("single");
   const [showAddOfficerForm, setShowAddOfficerForm] = useState(false);
@@ -47,6 +44,32 @@ const GenralComponent = (option) => {
     handleSearch();
   }, [searchUsername]);
 
+
+  const fetchadmin = async (luser) => {
+    
+    const response = await fetch(
+      'http://localhost:5000/fetchadmin',
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uname,
+        }),
+      }
+    );
+
+    const data = await response.json();
+    setadminobj(data);
+  };
+
+  useEffect(()=>{
+    console.log("fetch admin data");
+    console.log(uname);
+    fetchadmin();
+  },[]);
+  
   const handleSearch = async () => {
     try {
       if (searchUsername === "") {
@@ -155,8 +178,11 @@ const GenralComponent = (option) => {
     setShowAddOfficerForm(true);
   };
 
+  
+
   const handleAddSingleOfficer = async () => {
     console.log("enter");
+    console.log(adminobj.stationName);
     const response = await fetch(
       'http://localhost:5000/addsingleofficer',
       {
@@ -165,7 +191,7 @@ const GenralComponent = (option) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          addOfficerForm,
+          addOfficerForm,adminobj
         }),
       }
     );
@@ -204,14 +230,14 @@ const GenralComponent = (option) => {
         // Remove index if already expanded
         return prevIndices.filter((i) => i !== index);
       } else {
-        // Add index if not expanded
+       
         return [...prevIndices, index];
       }
     });
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>{option.option}</h2>
       {loading && (
         <div className="loading-overlay">
@@ -228,7 +254,7 @@ const GenralComponent = (option) => {
         <button onClick={handleSearch}>Search</button>
       </div>
       {showAddOfficerForm && (
-        <div>
+        <div className="add-officer-form">
           <h3>Add Single Officer</h3>
           <form>
             <label>Name:</label>
@@ -259,7 +285,6 @@ const GenralComponent = (option) => {
               value={addOfficerForm.email}
               onChange={handleInputChange}
             />
-            
             <button type="button" onClick={handleAddSingleOfficer}>
               Add Officer
             </button>
@@ -270,8 +295,8 @@ const GenralComponent = (option) => {
         <p>No officer found.</p>
       ) : (
         officers.map((officer, index) => (
-          <div key={officer.username} className="student-container">
-            <div className="student-header">
+          <div key={officer.username} className="officer-container">
+            <div className="officer-header">
               <button
                 onClick={() =>
                   setOfficers((prevOfficers) =>
@@ -296,81 +321,90 @@ const GenralComponent = (option) => {
               </button>
             </div>
             {officer.showDetails && (
-              <div className="student-details">
+              <div className="officer-details">
                 <div>Officer Name: {officer.name}</div>
                 <div>Username: {officer.username}</div>
                 <div>Password: {officer.password}</div>
                 <div>Email: {officer.email}</div>
-                <button onClick={() => handleHistoryClick(officer.username)}> {showDetailsData && officer.showDetails ? "Hide History" : "Show History"}</button>
-
-
-                {showDetailsData && detailsData.map((obj, index) => (
-        <div key={index} className="card mt-3 custom-card">
-          <div className="status-circle-wrapper">
-            <div className={`status-circle ${obj.flag === 'true' ? 'green' : 'red'}`}></div>
-          </div>
-          <div className="card-body">
-            <p className="card-text"><strong>No Plate:</strong> {obj.pobj.no_plate}</p>
-            <p className="card-text"><strong>Status:</strong> {obj.flag === 'true' ? 'Paid' : 'Unpaid'}</p>
-            
-            {expandedIndices.includes(index) && (
-              <>
-                <p className="card-text"><strong>Memo-Number:</strong> {obj.memo_number}</p>
-                <p className="card-text"><strong>Name:</strong> {obj.pobj.name}</p>
-                <p className="card-text"><strong>Address:</strong> {obj.pobj.address}</p>
-                <p className="card-text"><strong>Vehicle Type:</strong> {obj.pobj.vehicle_type}</p>
-                <p className="card-text"><strong>MemoDate:</strong> {obj.date}</p>
-                {obj.flag === 'true' && (
-                  <>
-                    <p className="card-text"><strong>Pay Date:</strong> {obj.status}</p>
-                  </>
-                )}
-              </>
-            )}
-
-            <button
-              className="btn btn-link"
-              onClick={() => handleToggleDetails(index)}
-            >
-              {expandedIndices.includes(index) ? 'Less' : 'More'}
-            </button>
-          </div>
-        </div>
-      ))}
+                <button onClick={() => handleHistoryClick(officer.username)}>
+                  History
+                </button>
+                {showDetailsData &&
+                  detailsData.map((obj, index) => (
+                    <div key={index} className="card mt-3 custom-card">
+                      <div className="status-circle-wrapper">
+                        <div
+                          className={`status-circle ${
+                            obj.flag === 'true' ? 'green' : 'red'
+                          }`}
+                        ></div>
+                      </div>
+                      <div className="card-body">
+                        <p className="card-text">
+                          <strong>No Plate:</strong> {obj.pobj.no_plate}
+                        </p>
+                        <p className="card-text">
+                          <strong>Status:</strong>{' '}
+                          {obj.flag === 'true' ? 'Paid' : 'Unpaid'}
+                        </p>
+                        {expandedIndices.includes(index) && (
+                          <>
+                            <p className="card-text">
+                              <strong>Memo-Number:</strong> {obj.memo_number}
+                            </p>
+                            <p className="card-text">
+                              <strong>Name:</strong> {obj.pobj.name}
+                            </p>
+                            <p className="card-text">
+                              <strong>Address:</strong> {obj.pobj.address}
+                            </p>
+                            <p className="card-text">
+                              <strong>Vehicle Type:</strong>{' '}
+                              {obj.pobj.vehicle_type}
+                            </p>
+                            <p className="card-text">
+                              <strong>MemoDate:</strong> {obj.date}
+                            </p>
+                            {obj.flag === 'true' && (
+                              <>
+                                <p className="card-text">
+                                  <strong>Pay Date:</strong> {obj.status}
+                                </p>
+                              </>
+                            )}
+                          </>
+                        )}
+                        <button
+                          className="btn btn-link"
+                          onClick={() => handleToggleDetails(index)}
+                        >
+                          {expandedIndices.includes(index) ? 'Less' : 'More'}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
             )}
           </div>
         ))
       )}
-      <div>
+      <div className="action-buttons">
         <button
-          style={{
-            backgroundColor: "#ff4d4d",
-            color: "white",
-            padding: "8px 16px",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          className="remove-all-button"
           onClick={handleRemoveAllOfficer}
         >
           Remove All
         </button>
+        <button className="add-officer-button" onClick={handleAddOfficer}>
+          Add Officer
+        </button>
+        <button
+          className="show-officers-button"
+          onClick={fetchOfficerDataToPrint}
+        >
+          Show Officers
+        </button>
       </div>
-      <button onClick={handleAddOfficer}>Add Officer</button>
-      <button
-        style={{
-          backgroundColor: "#3498db",
-          color: "white",
-          padding: "8px 16px",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-        onClick={fetchOfficerDataToPrint}
-      >
-        Show Officers
-      </button>
       {option.option === "AnnouncementMail" && (
         <GenralComponent2 option={(option = option.option)} />
       )}

@@ -14,11 +14,13 @@ router.post('/addsingleofficer', async(req, res) => {
     try {
         console.log("arrived");
         const officer = req.body;
-        console.log(officer.addOfficerForm.name);
+        const { adminobj } = req.body;
 
+        console.log(officer.addOfficerForm.name);
+        // console.log(uname);
         await Officer.create({
             name: officer.addOfficerForm.name,
-            station: "Kapodra Police Station-Surat",
+            station: adminobj.stationName,
             username: officer.addOfficerForm.username,
             password: officer.addOfficerForm.password,
             email: officer.addOfficerForm.email

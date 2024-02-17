@@ -6,14 +6,17 @@ import Signin from "../src/pages/Signin";
 import Details from "../src/pages/details";
 import Memo from "./pages/memo";
 import Signup from "../src/pages/Signup";
-import Home from "./pages/Home";
-import PrivateRoute from "./PrivateRoute";
+import OfficerHome from "./pages/Home";
+import PrivateRouteOfficer from "./PrivateRouteOfficer";
+import PrivateRouteAdmin from "./PrivateRouteAdmin";
+import PrivateRouteMainAdmin from "./PrivateRouteMainAdmin";
 import Memo_login from "./pages/memo_login";
 import Memo_home from "./pages/memo_home";
 import Receipt from "./pages/receipt";
 import History from "./pages/history";
 import Personhistory from "./pages/personhistory";
 import AdminPage from "./pages/AdminPage";
+import MainAdminPage from "./pages/mainAdmin";
 
 function App() {
   return (
@@ -21,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Signin />} />
         <Route path="/register" element={<Signup />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/officerhome" element={<PrivateRouteOfficer element={<OfficerHome />} />} />
         <Route path="/details" element={<Details />} />
         <Route path="/memo" element={<Memo />} />
         <Route path="/memo_login" element={<Memo_login />} />
@@ -30,8 +33,8 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/personhistory" element={<Personhistory />} />
         <Route path="/memo" element={<Memo />} />
-        <Route path="/adminhome" element={<AdminPage />} />
-        
+        <Route path="/adminhome" element={<PrivateRouteAdmin element={<AdminPage />} />} />
+        <Route path="/mainadminhome" element={<PrivateRouteMainAdmin element={<MainAdminPage />} />}/>
        
         <Route path="*" element={<Signin />} />
       </Routes>

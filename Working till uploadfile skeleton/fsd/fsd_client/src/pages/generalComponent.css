@@ -1,231 +1,9 @@
-.remove-student {
-    margin-top: 100px;
-}
-
-.student-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.dropdown-student {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.student-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-
-/* Add more styles as needed */
-
-
-/* Existing styles */
-
-.student-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.student-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-
-/* Existing styles */
-
-.student-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.student-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.student-details {
-    margin-left: 30px;
-    /* Adjust margin as needed */
-    /* Add styles for details section if needed */
-}
-
-.search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 0px;
-    margin-top: 100px;
-}
-
-.student-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.student-header {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    /* Reduce the gap between buttons and username */
-}
-
-.student-header button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 4px;
-    /* Adjust padding to make the buttons smaller */
-    font-size: 10px;
-    /* Adjust font size for buttons */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.student-details {
-    margin-left: 30px;
-    /* Adjust margin as needed */
-    /* Add styles for details section if needed */
-}
-
-
-/* Styles for Remove button (slightly bigger) */
-
-.student-header button.remove-button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 6px;
-    /* Adjust padding to make the Remove button slightly bigger */
-    font-size: 12px;
-    /* Adjust font size for Remove button */
-    cursor: pointer;
-}
-
-
-/* Add more styles as needed */
-
-
-/* Existing styles */
-
-.student-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.student-header {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    /* Reduce the gap between buttons and username */
-}
-
-.student-header button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 4px;
-    /* Adjust padding to make the buttons smaller */
-    font-size: 10px;
-    /* Adjust font size for buttons */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    /* color: black !important; */
-    /* Set text color to black */
-}
-
-.student-details {
-    margin-left: 30px;
-    /* Adjust margin as needed */
-    /* Add styles for details section if needed */
-}
-
-
-/* Styles for Remove button (slightly bigger) */
-
-.student-header button.remove-button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 6px;
-    /* Adjust padding to make the Remove button slightly bigger */
-    font-size: 12px;
-    /* Adjust font size for Remove button */
-    cursor: pointer;
-    color: black !important;
-    /* Set text color to black */
-}
-
-.dropdown-student {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.dropdown-student select {
-    padding: 8px;
-    font-size: 14px;
-}
-
-.dropdown-student input {
-    padding: 8px;
-    font-size: 14px;
-}
-
-.dropdown-student button {
-    background-color: #3498db;
-    color: #fff;
-    padding: 10px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-}
-
-
-/* Student container styles */
-
-.student-container {
-    width: 300px;
-    background-color: #fff;
+.container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.student-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.student-header button {
-    background-color: #3498db;
-    color: #fff;
-    padding: 6px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-}
-
-.student-details {
-    padding: 10px;
-}
-
-.student-header button.remove-button {
-    background-color: #e74c3c;
 }
 
 .loading-overlay {
@@ -241,7 +19,69 @@
     z-index: 9999;
 }
 
-.right-align-button {
-    margin-left: auto;
-    display: block;
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-officer-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.officer-container {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.officer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.officer-header button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 6px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.officer-details {
+    padding: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.remove-all-button,
+.add-officer-button,
+.show-officers-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-all-button:hover,
+.add-officer-button:hover,
+.show-officers-button:hover {
+    background-color: #297fb8;
 }
