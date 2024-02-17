@@ -3,6 +3,8 @@ import './memo_home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { no_plate } from './memo_login';
 import Navbar from './navbar';
+import { jwtDecode } from "jwt-decode";
+
 
 let name;
 let mdate, pdate, tno, rno,mno;
@@ -54,6 +56,22 @@ const Memo_home = () => {
 
     fetchData();
   }, [no_plate]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("userToken"); // Retrieve the token from where you store it
+    console.log(token);
+
+  if (token) {
+    try {                           
+      const decodedToken = jwtDecode(token);
+      console.log("Decoded Token:", decodedToken);
+      
+      // Now you can access the decoded information like decodedToken.user.username
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
+}, []);
 
   const handlePay = async () => {
     try {

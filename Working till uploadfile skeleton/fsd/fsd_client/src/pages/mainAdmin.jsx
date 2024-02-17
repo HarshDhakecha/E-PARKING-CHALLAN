@@ -13,11 +13,13 @@ import {
 import './adminhome.css';
 import GenralComponent from './GeneralComponent';
 import { jwtDecode } from "jwt-decode";
+let LOGOUT_TIME=3600000;
+
 
 
 
 const MainAdminPage = () => {
-
+  const [username,setUsername]=useState("None");
   const [selectedOption, setSelectedOption] = useState(null);
   const [menuVisible, setMenuVisible] = useState(true);
 
@@ -40,6 +42,61 @@ const MainAdminPage = () => {
     setSelectedOption(option);
   };
 
+  useEffect(() => {
+    // Get the token from where you have stored it (e.g., localStorage, cookies)
+    const token = sessionStorage.getItem('mainadminToken'); // Change this according to your storage method
+  
+    if (token) {
+      // Decode the token
+      const decodedToken = jwtDecode(token);
+  
+      // Access the username from the decoded token
+      const { username } = decodedToken.user;
+  
+      // Set the username in the component state
+      console.log("usernameeee: "+username);
+      setUsername(username);
+    }
+  }, []);
+  
+  useEffect(() => {
+    
+  
+    const pollingInterval = LOGOUT_TIME;
+  
+    // Setup polling with setInterval
+    const intervalId = setInterval(() => {
+      handleLogout(); // Fetch data at regular intervals
+    }, pollingInterval);
+  
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); 
+  
+  const handleLogout = async () => {
+    try {
+      const authToken = sessionStorage.getItem('mainadminToken'); 
+      sessionStorage.removeItem('mainadminToken'); 
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+  window.addEventListener('beforeunload', async (event) => {
+    event.preventDefault();
+    
+    try {
+      await handleLogout();
+    } catch (error) {
+      // Handle errors, if any
+    }
+  
+    // Standard for most browsers
+    delete event['returnValue'];
+    // For some older browsers
+    return;
+  });
+
   const menuIcons = {               
     ManageOfficers: faUser,
     AnnouncementMail: faEnvelope,
@@ -50,9 +107,7 @@ const MainAdminPage = () => {
     setMenuVisible(!menuVisible);
   };
 
-  const handleLogout = async () => {
-    // Your logout logic here
-  };
+ 
 
 
 

@@ -10,6 +10,7 @@ import OfficerHome from "./pages/Home";
 import PrivateRouteOfficer from "./PrivateRouteOfficer";
 import PrivateRouteAdmin from "./PrivateRouteAdmin";
 import PrivateRouteMainAdmin from "./PrivateRouteMainAdmin";
+import PrivateRouteUser from "./PrivateRouteUser";
 import Memo_login from "./pages/memo_login";
 import Memo_home from "./pages/memo_home";
 import Receipt from "./pages/receipt";
@@ -28,7 +29,7 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/memo" element={<Memo />} />
         <Route path="/memo_login" element={<Memo_login />} />
-        <Route path="/memo_home" element={<Memo_home />} />
+        <Route path="/memo_home" element={<PrivateRouteUser element={<Memo_home />} />} />
         <Route path="/receipt" element={<Receipt />} />
         <Route path="/history" element={<History />} />
         <Route path="/personhistory" element={<Personhistory />} />

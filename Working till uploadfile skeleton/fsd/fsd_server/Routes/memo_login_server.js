@@ -47,13 +47,13 @@ router.post("/memologin", async(req, res) => {
             const payload = {
                 user: {
                     id: professor._id,
-                    dob: professor.date_of_birth,
+                    no_plate: professor.no_plate,
                 },
 
             };
             const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
             res.cookie("token", token, { httpOnly: true });
-            return res.status(200).json({ msg: "Login Successful", authToken: token });
+            return res.status(200).json({ msg: "Login Successful", userToken: token });
         }
     } catch (error) {
         return res.status(401).json({ error: "Login Failed" });

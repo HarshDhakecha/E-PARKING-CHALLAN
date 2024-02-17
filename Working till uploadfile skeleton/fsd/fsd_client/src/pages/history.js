@@ -7,6 +7,8 @@ const History = () => {
   const [detailsData, setDetailsData] = useState([]);
   const [expandedIndices, setExpandedIndices] = useState([]);
 
+
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

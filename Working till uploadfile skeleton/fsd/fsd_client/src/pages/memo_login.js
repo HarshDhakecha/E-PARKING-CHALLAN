@@ -12,7 +12,7 @@ const Memo_login = () => {
   const handleLogin = async () => {
     try {
       // Perform authentication with the backend
-      const response = await fetch('http://localhost:5000/memologin', {
+      const res = await fetch('http://localhost:5000/memologin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,14 +20,17 @@ const Memo_login = () => {
         body: JSON.stringify({ vehicleNumber, dob }),
       });
 
-      if (response.ok) {
-        // Authentication successful, you can redirect or perform additional actions
-        console.log('Login successful!');
+      const data = await res.json()
+
+      if (res.status === 200) {
+        console.log(data);
+       
+        sessionStorage.setItem('userToken', data.userToken);
         navigate('/memo_home');
         no_plate = vehicleNumber;
       } else {
         // Authentication failed, handle error
-        const data = await response.json();
+        const data = await res.json();
         setError(data.message || 'Login failed');
       }
     } catch (error) {

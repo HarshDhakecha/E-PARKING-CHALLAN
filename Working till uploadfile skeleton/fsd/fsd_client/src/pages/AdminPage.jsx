@@ -13,16 +13,57 @@ import {
 import './adminhome.css';
 import GenralComponent from './GeneralComponent';
 import { jwtDecode } from "jwt-decode";
+let LOGOUT_TIME=3600000;
 
 
 
 const AdminPage = () => {
+  const [username,setUsername]=useState("None");
   const [selectedOption, setSelectedOption] = useState(null);
   const [menuVisible, setMenuVisible] = useState(true);
 
   const handleOptionClick = async (option) => {
     setSelectedOption(option);
   };
+
+  useEffect(() => {
+    const pollingInterval = LOGOUT_TIME;
+  
+    // Setup polling with setInterval
+    const intervalId = setInterval(() => {
+      handleLogout(); // Fetch data at regular intervals
+    }, pollingInterval);
+  
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); 
+  
+  const handleLogout = async () => {
+    try {
+      const authToken = sessionStorage.getItem('adminToken'); // Get the authToken from sessionStorage
+      sessionStorage.removeItem('adminToken'); // Clear the authToken from sessionStorage
+  
+      // Redirect or perform other actions after logout
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+  window.addEventListener('beforeunload', async (event) => {
+    event.preventDefault();
+    
+    try {
+      await handleLogout();
+    } catch (error) {
+      // Handle errors, if any
+    }
+  
+    // Standard for most browsers
+    delete event['returnValue'];
+    // For some older browsers
+    return;
+  });
+
 
   useEffect(() => {
     const token = sessionStorage.getItem("adminToken"); // Retrieve the token from where you store it
@@ -50,9 +91,7 @@ const AdminPage = () => {
     setMenuVisible(!menuVisible);
   };
 
-  const handleLogout = async () => {
-    // Your logout logic here
-  };
+
 
   return (
     <div className={`admin-page ${menuVisible ? '' : 'collapsed'}`}>
