@@ -13,7 +13,7 @@ const Memo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/fetchdetails", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchdetails`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -42,7 +42,7 @@ const Memo = () => {
        //Assuming you have access to the actual file
       formData.append('pdfFile', state?.pdfFile);
 
-      const res = await fetch("http://localhost:5000/sendEmail", {
+      const res = await fetch("${process.env.REACT_APP_API_URL}/sendEmail", {
         method: "POST",
         body: formData,
       });

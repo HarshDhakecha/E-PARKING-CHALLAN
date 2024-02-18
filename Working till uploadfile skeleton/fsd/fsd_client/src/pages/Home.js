@@ -42,7 +42,7 @@ const OfficerHome = () => {
     formData.append('image', file);
    // formData.append('luser',luser);
 
-    fetch("http://localhost:5002/api/upload", {
+    fetch(`${process.env.REACT_APP_PYTHON_URL}/api/upload`, {
       method: 'POST',
       body: formData,
     })

@@ -48,7 +48,7 @@ const GenralComponent = (option) => {
   const fetchadmin = async (luser) => {
     
     const response = await fetch(
-      'http://localhost:5000/fetchadmin',
+      `${process.env.REACT_APP_API_URL}/fetchadmin`,
       {
         method: "post",
         headers: {
@@ -76,7 +76,7 @@ const GenralComponent = (option) => {
         setOfficers([]);
       } else {
         const response = await fetch(
-          `http://localhost:5000/searchofficer`,
+          `${process.env.REACT_APP_API_URL}/searchofficer`,
           {
             method: "post",
             headers: {
@@ -103,7 +103,7 @@ const GenralComponent = (option) => {
   const handleRemoveOfficer = async (studentid) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/removeofficer/${studentid}`,
+        `${process.env.REACT_APP_API_URL}/removeofficer/${studentid}`,
         {
           method: "post",
         }
@@ -124,7 +124,7 @@ const GenralComponent = (option) => {
       );
       if (confirmed) {
         const response = await fetch(
-          `http://localhost:5000/removeallofficer`,
+          `${process.env.REACT_APP_API_URL}/removeallofficer`,
           {
             method: "post",
             headers: {
@@ -150,7 +150,7 @@ const GenralComponent = (option) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/officerdataadmin`,
+        `${process.env.REACT_APP_API_URL}/officerdataadmin`,
         {
           method: "post",
           headers: {
@@ -184,7 +184,7 @@ const GenralComponent = (option) => {
     console.log("enter");
     console.log(adminobj.stationName);
     const response = await fetch(
-      'http://localhost:5000/addsingleofficer',
+      `${process.env.REACT_APP_API_URL}/addsingleofficer`,
       {
         method: "post",
         headers: {
@@ -205,7 +205,7 @@ const GenralComponent = (option) => {
   const handleHistoryClick = async (luser) => {
     console.log("officerusername "+luser);
     const response = await fetch(
-      'http://localhost:5000/fetchhistory',
+      `${process.env.REACT_APP_API_URL}/fetchhistory`,
       {
         method: "post",
         headers: {

@@ -13,7 +13,7 @@ const History = () => {
     const fetchData = async () => {
       try {
         console.log("luser is "+ luser);
-        const res = await fetch('http://localhost:5000/fetchhistory', {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchhistory`, {
           method: 'POST',
           headers: { 'Content-type': 'application/json' },
           body: JSON.stringify({

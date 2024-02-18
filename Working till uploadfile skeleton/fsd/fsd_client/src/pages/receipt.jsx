@@ -20,7 +20,7 @@ const Receipt = () => {
     console.log("insert into effect");
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/getreceipt", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/getreceipt`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({}),
@@ -35,7 +35,7 @@ const Receipt = () => {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/fetchmemodetails", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchmemodetails`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -58,7 +58,7 @@ const Receipt = () => {
   const handleDownload = async () => {
 
     // try {
-    //   const res = await fetch("http://localhost:5000/changehistory", {
+    //   const res = await fetch("${process.env.REACT_APP_API_URL}/changehistory", {
     //     method: "POST",
     //     headers: { "Content-type": "application/json" },
     //     body: JSON.stringify({

@@ -39,8 +39,7 @@ const Memo = () => {
         </div>
       </div>
     </div></>
-  );
-};
+  );};
 
 export default Memo;
 export {gresult,image};

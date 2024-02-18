@@ -16,7 +16,7 @@ const Personhistory = () => {
 
 
         try {
-            const res = await fetch("http://localhost:5000/fetchmemodetails", {
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchmemodetails`, {
               method: "POST",
               headers: { "Content-type": "application/json" },
               body: JSON.stringify({
@@ -34,7 +34,7 @@ const Personhistory = () => {
 
       try {
         
-        const res = await fetch('http://localhost:5000/fetchpersonhistory', {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchpersonhistory`, {
           method: 'POST',
           headers: { 'Content-type': 'application/json' },
           body: JSON.stringify({

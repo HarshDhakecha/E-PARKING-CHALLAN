@@ -15,7 +15,7 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/fetchdetails", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchdetails`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -37,7 +37,7 @@ const Details = () => {
 
   const handleGenerate = async () => {
     try {
-      const receiptResponse = await fetch("http://localhost:5000/getmemonumber", {
+      const receiptResponse = await fetch(`${process.env.REACT_APP_API_URL}/getmemonumber`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({}),
@@ -52,7 +52,7 @@ const Details = () => {
     setShowHelloMessage(true);
     // console.log("mno "+mno);
     try {
-      const resmemo = await fetch("http://localhost:5000/setmemonumber", {
+      const resmemo = await fetch(`${process.env.REACT_APP_API_URL}/setmemonumber`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
@@ -96,7 +96,7 @@ const Details = () => {
     formData.append('memo_number', mno);
 
     console.log("API about to call");
-    const resp = await fetch("http://localhost:5000/sendEmail", {
+    const resp = await fetch(`${process.env.REACT_APP_API_URL}/sendEmail`, {
       method: "POST",
       body: formData,
     });

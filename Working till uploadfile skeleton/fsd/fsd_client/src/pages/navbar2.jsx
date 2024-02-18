@@ -51,7 +51,7 @@ const Navbar2 = () => {
   const handleLogout = async () => {
     try {
       const authToken = sessionStorage.getItem('officerToken'); // Get the authToken from sessionStorage
-      // await axios.post(`http://localhost:5000/logout`, null, {
+      // await axios.post(`${process.env.REACT_APP_API_URL}/logout`, null, {
       //   headers: {
       //     Authorization: `Bearer ${authToken}`, // Add the token to the headers
       //   },

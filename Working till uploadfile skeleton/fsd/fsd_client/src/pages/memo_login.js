@@ -12,7 +12,7 @@ const Memo_login = () => {
   const handleLogin = async () => {
     try {
       // Perform authentication with the backend
-      const res = await fetch('http://localhost:5000/memologin', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/memologin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ const Memo_home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res2 = await fetch("http://localhost:5000/getflag", {
+        const res2 = await fetch(`${process.env.REACT_APP_API_URL}/getflag`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -38,7 +38,7 @@ const Memo_home = () => {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/fetchmemodetails", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchmemodetails`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -76,7 +76,7 @@ const Memo_home = () => {
   const handlePay = async () => {
     try {
       // Fetch receipt
-      const receiptResponse = await fetch("http://localhost:5000/getreceipt", {
+      const receiptResponse = await fetch(`${process.env.REACT_APP_API_URL}/getreceipt`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({}),
@@ -92,7 +92,7 @@ const Memo_home = () => {
       tno = receiptData;
   
       // Update MongoDB with payment details
-      const updateHistoryResponse = await fetch("http://localhost:5000/changehistory", {
+      const updateHistoryResponse = await fetch(`${process.env.REACT_APP_API_URL}/changehistory`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
