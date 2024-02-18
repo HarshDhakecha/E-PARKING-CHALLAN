@@ -45,6 +45,10 @@ const OfficerHome = () => {
     fetch(`${process.env.REACT_APP_PYTHON_URL}/api/upload`, {
       method: 'POST',
       body: formData,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        
+      },
     })
       .then(response => response.json())
       .then(data => {
