@@ -8,7 +8,7 @@ import re
 from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, resources={r"/api/*": {"origins": "https://main.dwdjviht0eipb.amplifyapp.com"}})  # Enable CORS for specific route
 
 @app.route('/api/upload', methods=['POST'])
 
