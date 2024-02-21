@@ -10,8 +10,6 @@ const Professor = mongoose.model("authority", authoritySchema);
 
 
 // const nodemailer = require('nodemailer');
-//sfnasnfjksnfjnjfn
-
 
 const app = express();
 const port = 5000;
