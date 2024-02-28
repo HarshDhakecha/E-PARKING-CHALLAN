@@ -21,7 +21,7 @@ app.listen(portnumber, () => {
 });
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", `${process.env.REACT_APP_API_URL}`);
+    res.setHeader("Access-Control-Allow-Origin", `*`);
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
@@ -49,3 +49,9 @@ app.use('/', require("../fsd_server/Routes/removeOfficer"))
 app.use('/', require("../fsd_server/Routes/viewOfficerdata"))
 app.use('/', require("../fsd_server/Routes/addSingleOfficer"))
 app.use('/', require("../fsd_server/Routes/fetchAdminData"))
+app.use('/', require("../fsd_server/Routes/viewAdmin"))
+app.use('/', require("../fsd_server/Routes/removeAdmin"))
+app.use('/', require("../fsd_server/Routes/addSingleAdmin"))
+app.use('/', require("../fsd_server/Routes/addVehicleDetail"))
+app.use('/', require("../fsd_server/Routes/otpSender"))
+app.use('/', require("../fsd_server/Routes/updatePassword"))

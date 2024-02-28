@@ -67,7 +67,8 @@ const OfficerHome = () => {
   };
 
   return (
-    <div><Navbar2/>
+    <div>
+      <Navbar2/>
     <div className="container mt-5">
           
       <div className="mt-3">

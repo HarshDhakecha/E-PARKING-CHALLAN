@@ -10,15 +10,15 @@ const stationadmin = require("../models/station_admin");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-router.post('/removeofficer/:id', async(req, res) => {
+router.post('/removeadmin/:id', async(req, res) => {
     try {
-        const officerUserName = req.params.id;
-        console.log(officerUserName);
-        console.log("remove ddd called for " + officerUserName);
+        const adminUserName = req.params.id;
+        console.log(adminUserName);
+        console.log("removeee called for " + adminUserName);
 
-        await Officer.deleteOne({ username: officerUserName });
+        await stationadmin.deleteOne({ username: adminUserName });
         return res.json({
-            message: 'Officer Data Deleted Successfully.',
+            message: 'Admin Data Deleted Successfully.',
         });
     } catch (error) {
         console.error('Error removing Officer from MongoDB:', error);
@@ -27,17 +27,11 @@ router.post('/removeofficer/:id', async(req, res) => {
 });
 
 
-router.post('/removeallofficer', async(req, res) => {
+router.post('/removealladmin', async(req, res) => {
     try {
         console.log("enter");
-        const { uname } = req.body;
 
-        const admin = await stationadmin.findOne({ username: uname });
-        console.log(admin);
-        const sname = admin.stationName;
-
-        await Officer.deleteMany({ station: sname });
-
+        await stationadmin.collection.drop();
         return res.json({
             message: 'All Officer Data Deleted Successfully.',
         });

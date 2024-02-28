@@ -1,33 +1,57 @@
 import React, { useState, useEffect } from "react";
-import "./generalComponent.css";
+import "./admincomponent.css";
 import GenralComponent2 from "./GeneralComponent2";
 import ClipLoader from "react-spinners/ClipLoader";
 import { jwtDecode } from 'jwt-decode';
 import { uname } from "./Signin";
 
-const GenralComponent = (option) => {
+const AdminComponent = (option) => {
   const [detailsData, setDetailsData] = useState([]);
-  const [officers, setOfficers] = useState([]);
+  const [admins, setadmins] = useState([]);
   const [username, setUsername] = useState(null);
   const [searchUsername, setSearchUsername] = useState("");
-  const [adminobj, setadminobj] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showDetailsData, setshowDetailsData] = useState(false);
+  const [expandedIndices, setExpandedIndices] = useState([]);
   const [announcementTitle, setAnnouncementTitle] = useState("");
   const [announcementBody, setAnnouncementBody] = useState("");
-  const [expandedIndices, setExpandedIndices] = useState([]);
   const [addOfficerForm, setAddOfficerForm] = useState({
-    name: "",
+    stationName: "",
     password: "",
     username: "",
     email: "",
+    Name:"",
+  });
+
+  const [addVehicleForm, setAddVehicleForm] = useState({
+    name: "",
+    vehicle_type:"",
+    email: "",
+    date_of_birth:"",
+    no_plate:"",
+    address:"",
   });
   const [selectedOption, setSelectedOption] = useState("single");
   const [showAddOfficerForm, setShowAddOfficerForm] = useState(false);
 
+const [selectedSection, setSelectedSection] = useState(null);
+
+  const handleSectionClick = (section) => {
+    // Update the selected section when a menu item is clicked
+    setSelectedSection(section);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAddOfficerForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  const handleInputChange2 = (e) => {
+    const { name, value } = e.target;
+    setAddVehicleForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
@@ -47,54 +71,31 @@ const GenralComponent = (option) => {
   }, [searchUsername]);
 
 
-  const fetchadmin = async (luser) => {
-    
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/fetchadmin`,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uname,
-        }),
-      }
-    );
-
-    const data = await response.json();
-    setadminobj(data);
-  };
-
-  useEffect(()=>{
-    console.log("fetch admin data");
-    console.log(uname);
-    fetchadmin();
-  },[]);
   
   const handleSearch = async () => {
     try {
+        console.log("enteeeerrr");
       if (searchUsername === "") {
-        setOfficers([]);
+        setadmins([]);
       } else {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/searchofficer`,
+          `${process.env.REACT_APP_API_URL}/searchAdmin`,
           {
             method: "post",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              searchUsername, uname
+              searchUsername,
             }),
           }
         );
         const data = await response.json();
   
         if (Array.isArray(data)) {
-          setOfficers(data);
+          setadmins(data);
         } else {
-          setOfficers([]);
+          setadmins([]);
         }
       }
     } catch (error) {
@@ -102,10 +103,10 @@ const GenralComponent = (option) => {
     }
   };
 
-  const handleRemoveOfficer = async (studentid) => {
+  const handleRemoveAdmin = async (adminId) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/removeofficer/${studentid}`,
+        `${process.env.REACT_APP_API_URL}/removeadmin/${adminId}`,
         {
           method: "post",
         }
@@ -113,20 +114,20 @@ const GenralComponent = (option) => {
 
       const data = await response.json();
       window.alert(data.message);
-      fetchOfficerDataToPrint();
+      fetchAdminDataToPrint();
     } catch (error) {
-      console.error("Error removing officer:", error);
+      console.error("Error removing admin:", error);
     }
   };
 
   const handleRemoveAllOfficer = async () => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete all officer data?"
+        "Are you sure you want to delete all admin data?"
       );
       if (confirmed) {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/removeallofficer`,
+          `${process.env.REACT_APP_API_URL}/removealladmin`,
           {
             method: "post",
             headers: {
@@ -141,33 +142,31 @@ const GenralComponent = (option) => {
 
         const data = await response.json();
         window.alert(data.message);
-        fetchOfficerDataToPrint();
+        fetchAdminDataToPrint();
       }
     } catch (error) {
-      console.error("Error removing all officers:", error);
+      console.error("Error removing all admins:", error);
     }
   };
 
-  const fetchOfficerDataToPrint = async () => {
+  const fetchAdminDataToPrint = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/officerdataadmin`,
+        `${process.env.REACT_APP_API_URL}/admindata`,
         {
           method: "post",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username,
-          }),
+          
         }
       );
       const data = await response.json();
       if (Array.isArray(data)) {
-        setOfficers(data);
+        setadmins(data);
       } else {
-        setOfficers([]);
+        setadmins([]);
       }
     } catch (error) {
       console.error("Error fetching officers:", error);
@@ -182,18 +181,17 @@ const GenralComponent = (option) => {
 
   
 
-  const handleAddSingleOfficer = async () => {
+  const handleAddSingleAdmin = async () => {
     console.log("enter");
-    console.log(adminobj.stationName);
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/addsingleofficer`,
+      `${process.env.REACT_APP_API_URL}/addsingleadmin`,
       {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          addOfficerForm,adminobj
+          addOfficerForm,
         }),
       }
     );
@@ -201,7 +199,38 @@ const GenralComponent = (option) => {
     const data = await response.json();
     window.alert(data.message);
     setShowAddOfficerForm(false);
-    fetchOfficerDataToPrint();
+    fetchAdminDataToPrint();
+  };
+
+  const handleAddVehicle = async () => {
+    console.log("enter");
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/addvehicledetail`,
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          addVehicleForm,
+        }),
+      }
+    );
+
+    const data = await response.json();
+    window.alert(data.message);
+
+    setAddVehicleForm({
+        name: "",
+        vehicle_type: "",
+        email: "",
+        date_of_birth: "",
+        no_plate: "",
+        address: "",
+      });
+
+    setShowAddOfficerForm(false);
+    fetchAdminDataToPrint();
   };
 
   const handleHistoryClick = async (luser) => {
@@ -252,12 +281,11 @@ const GenralComponent = (option) => {
     setAnnouncementTitle("");
     setAnnouncementBody("");
   };
-  
+
   return (
     <div className="container">
-
-{option.option === "ManageOfficers" && (
-  <>
+        {option.option === "ManageAdmins" && (
+    <>
       <h2>{option.option}</h2>
       {loading && (
         <div className="loading-overlay">
@@ -269,19 +297,26 @@ const GenralComponent = (option) => {
           type="text"
           value={searchUsername}
           onChange={(e) => setSearchUsername(e.target.value)}
-          placeholder="Search by username"
+          placeholder="Search by staion-name"
         />
         <button onClick={handleSearch}>Search</button>
       </div>
       {showAddOfficerForm && (
         <div className="add-officer-form">
-          <h3>Add Single Officer</h3>
+          <h3>Add Single Admin</h3>
           <form>
-            <label>Name:</label>
+          <label>Admin Name:</label>
             <input
               type="text"
-              name="name"
-              value={addOfficerForm.name}
+              name="Name"
+              value={addOfficerForm.Name}
+              onChange={handleInputChange}
+            />
+            <label>StationName:</label>
+            <input
+              type="text"
+              name="stationName"
+              value={addOfficerForm.stationName}
               onChange={handleInputChange}
             />
             <label>Password:</label>
@@ -305,21 +340,21 @@ const GenralComponent = (option) => {
               value={addOfficerForm.email}
               onChange={handleInputChange}
             />
-            <button type="button" onClick={handleAddSingleOfficer}>
-              Add Officer
+            <button type="button" onClick={handleAddSingleAdmin}>
+              Add Admin
             </button>
           </form>
         </div>
       )}
-      {officers.length === 0 ? (
-        <p>No officer found.</p>
+      {admins.length === 0 ? (
+        <p>No Admin found.</p>
       ) : (
-        officers.map((officer, index) => (
+        admins.map((officer, index) => (
           <div key={officer.username} className="officer-container">
             <div className="officer-header">
               <button
                 onClick={() =>
-                  setOfficers((prevOfficers) =>
+                  setadmins((prevOfficers) =>
                     prevOfficers.map((s) =>
                       s.username === officer.username
                         ? { ...s, showDetails: !s.showDetails }
@@ -334,75 +369,19 @@ const GenralComponent = (option) => {
                 {index + 1}. {officer.username}
               </div>
               <button
-                onClick={() => handleRemoveOfficer(officer.username)}
+                onClick={() => handleRemoveAdmin(officer.username)}
                 className="remove-button"
-              >
+              > 
                 Remove
               </button>
             </div>
             {officer.showDetails && (
               <div className="officer-details">
-                <div>Officer Name: {officer.name}</div>
+                <div>Station Name: {officer.stationName}</div>
                 <div>Username: {officer.username}</div>
                 <div>Password: {officer.password}</div>
                 <div>Email: {officer.email}</div>
-                <button onClick={() => handleHistoryClick(officer.username)}>
-                  History
-                </button>
-                {showDetailsData &&
-                  detailsData.map((obj, index) => (
-                    <div key={index} className="card mt-3 custom-card">
-                      <div className="status-circle-wrapper">
-                        <div
-                          className={`status-circle ${
-                            obj.flag === 'true' ? 'green' : 'red'
-                          }`}
-                        ></div>
-                      </div>
-                      <div className="card-body">
-                        <p className="card-text">
-                          <strong>No Plate:</strong> {obj.pobj.no_plate}
-                        </p>
-                        <p className="card-text">
-                          <strong>Status:</strong>{' '}
-                          {obj.flag === 'true' ? 'Paid' : 'Unpaid'}
-                        </p>
-                        {expandedIndices.includes(index) && (
-                          <>
-                            <p className="card-text">
-                              <strong>Memo-Number:</strong> {obj.memo_number}
-                            </p>
-                            <p className="card-text">
-                              <strong>Name:</strong> {obj.pobj.name}
-                            </p>
-                            <p className="card-text">
-                              <strong>Address:</strong> {obj.pobj.address}
-                            </p>
-                            <p className="card-text">
-                              <strong>Vehicle Type:</strong>{' '}
-                              {obj.pobj.vehicle_type}
-                            </p>
-                            <p className="card-text">
-                              <strong>MemoDate:</strong> {obj.date}
-                            </p>
-                            {obj.flag === 'true' && (
-                              <>
-                                <p className="card-text">
-                                  <strong>Pay Date:</strong> {obj.status}
-                                </p>
-                              </>
-                            )}
-                          </>
-                        )}
-                        <button
-                          className="btn btn-link"
-                          onClick={() => handleToggleDetails(index)}
-                        >
-                          {expandedIndices.includes(index) ? 'Less' : 'More'}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                
               </div>
             )}
           </div>
@@ -416,19 +395,84 @@ const GenralComponent = (option) => {
           Remove All
         </button>
         <button className="add-officer-button" onClick={handleAddOfficer}>
-          Add Officer
+          Add Admin
         </button>
         <button
           className="show-officers-button"
-          onClick={fetchOfficerDataToPrint}
+          onClick={fetchAdminDataToPrint}
         >
-          Show Officers
+          Show Admins
         </button>
       </div>
-      
-    
+      {option.option === "AnnouncementMail" && (
+        <GenralComponent2 option={(option = option.option)} />
+      )}
+
     </>
-)}
+        )}
+
+
+
+
+{option.option === "RegisterVehicle" && (
+    <>
+     <h2>{option.option}</h2>
+        <div className="add-vehicle-form">
+          <form>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={addVehicleForm.name}
+              onChange={handleInputChange2}
+            />
+            <label>Number Plate:</label>
+            <input
+              type="text"
+              name="no_plate"
+              value={addVehicleForm.no_plate}
+              onChange={handleInputChange2}
+            />
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={addVehicleForm.email}
+              onChange={handleInputChange2}
+            />
+            <label>Vehicle Type:</label>
+            <input
+              type="text"
+              name="vehicle_type"
+              value={addVehicleForm.vehicle_type}
+              onChange={handleInputChange2}
+            />
+            <label>Address:</label>
+            <input
+              type="text"
+              name="address"
+              value={addVehicleForm.address}
+              onChange={handleInputChange2}
+            />
+            <label>Date of Birth:</label>
+            <input
+              type="date"
+              name="date_of_birth"
+              value={addVehicleForm.date_of_birth}
+              onChange={handleInputChange2}
+            />
+
+            <button type="button" onClick={handleAddVehicle}>
+              Add Vehicle Detail
+            </button>
+          </form>
+        </div>
+     
+      
+
+    </>
+        )}
+
 
 {option.option === "AnnouncementMail" && (
     <>
@@ -455,8 +499,8 @@ const GenralComponent = (option) => {
 
     </>
         )}
-</div>
+    </div>
   );
 };
 
-export default GenralComponent;
+export default AdminComponent;

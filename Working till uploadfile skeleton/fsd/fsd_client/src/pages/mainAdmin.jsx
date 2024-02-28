@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
 import {
   faUser,
-  faChalkboardTeacher,
-  faFileAlt,
   faEnvelope,
   faChartBar,
   faUserSlash,
@@ -13,6 +11,7 @@ import {
 import './adminhome.css';
 import GenralComponent from './GeneralComponent';
 import { jwtDecode } from "jwt-decode";
+import AdminComponent from './admincomponent';
 let LOGOUT_TIME=3600000;
 
 
@@ -63,10 +62,9 @@ const MainAdminPage = () => {
     
   
     const pollingInterval = LOGOUT_TIME;
-  
-    // Setup polling with setInterval
-    const intervalId = setInterval(() => {
-      handleLogout(); // Fetch data at regular intervals
+      const intervalId = setInterval(() => {
+
+      handleLogout(); 
     }, pollingInterval);
   
     // Cleanup interval on component unmount
@@ -88,17 +86,15 @@ const MainAdminPage = () => {
     try {
       await handleLogout();
     } catch (error) {
-      // Handle errors, if any
     }
   
-    // Standard for most browsers
     delete event['returnValue'];
-    // For some older browsers
     return;
   });
 
   const menuIcons = {               
-    ManageOfficers: faUser,
+    ManageAdmins: faUser,
+    RegisterVehicle: faUser,
     AnnouncementMail: faEnvelope,
     Report: faChartBar,
   };
@@ -147,12 +143,12 @@ const MainAdminPage = () => {
 
         {selectedOption ? (
           <div className="selected-option">
-            <GenralComponent option={selectedOption} />
+            <AdminComponent option={selectedOption} />
           </div>
         ) : (
           <div className="default-content">
             <h1>Welcome to the Admin Dashboard</h1>
-            <p>Manage your educational institution efficiently with ease!</p>
+            <p>Manage station Admins and Officers with ease!</p>
             <p>Select an option from the menu to get started!</p>
           </div>
         )}

@@ -12,8 +12,6 @@ import './navbar.css';
 let LOGOUT_TIME=3600000;
 
 
-
-
 const Navbar2 = () => {
   const [username,setUsername]=useState("None");
 

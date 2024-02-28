@@ -3,13 +3,27 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
+import './SignIn.css'
 import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput
+}
+from 'mdb-react-ui-kit';
 let uname;
-
 let luser;
+
 export default function Signin() {
     
     let navigate = useNavigate();
+
+    const handleForgotPasswordClick = () => {
+      navigate("/forgotpassword");
+    };
+
     const location = useLocation();
     const [registrationSuccessMessage, setRegistrationSuccessMessage] =
       useState(null);
@@ -97,75 +111,75 @@ export default function Signin() {
     
   
     return (
-      <>
-        <div className='container-fluid ' style={{ minHeight: "100vh" }}>
-          <div className="container-fluid registration-container">
-            <div className="row justify-content-center">
-              <div className="col-md-6 mt-25">
-                <div className="registration-form">
-                  <h2 className="text-center mb-4">Log In</h2>
-                  <div className="row justify-content-center">
-  
-                    <form method="post" className="mx-1 mx-md-4" onSubmit={PostData}>
-                      {registrationSuccessMessage && (
+      <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '50px' }}>
+
+      <MDBRow>
+
+        <MDBCol col='10' className="mb-5">
+          <div className="d-flex flex-column ms-10">
+
+            <div className="text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                style={{width: '185px'}} alt="logo" />
+              <h4 className="mt-1 mb-5 pb-1">No Parking Administry Team</h4>
+            </div>
+
+            <p>Please login to your account</p>
+
+            <form method="post" onSubmit={PostData}>
+
+            {registrationSuccessMessage && (
                         <div className="alert alert-success" role="alert">
                           {registrationSuccessMessage}
                         </div>
                       )}
   
-                      <div className="d-flex flex-row align-items-center mb-4">
-                        <div className="d-flex justify-content-center form-outline flex-fill mb-0">
-  
-                          {/* <FaUser /> */}
-                          <input
-                            type="text"
+            <MDBInput wrapperClass='mb-4' label='Username'  type="text"
                             id="username"
-                            className="form-control"
                             name="username"
-                            placeholder="Username"
                             value={user.username}
-                            onChange={handleInputs}
-                            style={{ width: "70%" }}
-                          />
-  
-                        </div>
-                      </div>
-  
-                      <div className="d-flex flex-row align-items-center mb-4">
-                        {/* <FaLock /> */}
-                        <div className="d-flex justify-content-center form-outline flex-fill mb-0">
-                          <input
-                          
-                            type="password"
+                            onChange={handleInputs}/>
+                            
+            <MDBInput wrapperClass='mb-4' label='Password'type="password"
                             id="password"
-                            className="form-control"
                             name="password"
-                            placeholder="Password"
                             value={user.password}
-                            onChange={handleInputs}
-                            style={{ width: "70%" }}
-                          />
-  
-                        </div>
-                      </div>
-  
-                      <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button
-                          type="submit"
-                          className="btn btn-clr btn-primary btn-lg"
-  
-                        >
-                          LogIn
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+                            onChange={handleInputs}/>
+
+
+            <div className="text-center pt-1 mb-5 pb-1">
+                <button className="log">SignIn</button>
             </div>
+
+            <div className="text-center">
+           <Link to="/forgotpassword" className="text-muted" onClick={handleForgotPasswordClick}>
+            Forgot password?
+          </Link>
+              </div>
+
+            </form>
+
           </div>
-        </div>
-  </>
+
+        </MDBCol>
+
+        <MDBCol col='6' className="mb-5">
+          <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
+
+            <div className="text-white px-3 py-4 p-md-5 mx-md-4">
+              <h4 className="mb-4 black">E-Parking Challan System</h4>
+              <p className="small mb-0 white-text">
+              Our mission is to streamline the parking management process, making it efficient and convenient for both officers and vehicle owners. As an officer, you play a crucial role in enforcing parking regulations and ensuring the smooth flow of traffic.
+              </p>
+            </div>
+
+          </div>
+
+        </MDBCol>
+
+      </MDBRow>
+
+    </MDBContainer>
   );
 }
 //<p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <Link to="/register" className="fw-bold text-body"><u>Register here</u></Link></p>

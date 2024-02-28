@@ -15,7 +15,7 @@ router.use(bodyParser.json());
 router.post('/officerdataadmin', async(req, res) => {
     try {
         const { username } = req.body;
-        // console.log(username);
+        console.log(username);
         const admin = await stationadmin.findOne({
             username: username
         });

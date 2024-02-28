@@ -134,7 +134,7 @@ const AdminPage = () => {
         ) : (
           <div className="default-content">
             <h1>Welcome to the Admin Dashboard</h1>
-            <p>Manage your educational institution efficiently with ease!</p>
+            <p>Manage Officers and parking activities with ease!</p>
             <p>Select an option from the menu to get started!</p>
           </div>
         )}
