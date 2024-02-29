@@ -4,10 +4,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { no_plate } from './memo_login';
 import Navbar from './navbar';
 import { jwtDecode } from "jwt-decode";
-
+import axios from 'axios';
+import logo from '../logo.svg';
 
 let name;
 let mdate, pdate, tno, rno,mno;
+
+const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(false);
+    document.body.appendChild(script);
+  });
+};
+
 
 const Memo_home = () => {
   const [detailsData, setDetailsData] = useState(null);
@@ -16,6 +28,8 @@ const Memo_home = () => {
   const [receipt, setReceipt] = useState(null);
   const [data, setdata] = useState(null);
   const [rn, setRn] = useState(null);
+  // const [tno, setTno] = useState(null); 
+  // const [rno, setRno] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,46 +87,100 @@ const Memo_home = () => {
   }
 }, []);
 
+
+
   const handlePay = async () => {
     try {
-      // Fetch receipt
-      const receiptResponse = await fetch(`${process.env.REACT_APP_API_URL}/getreceipt`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({}),
-      });
-      const receiptData = await receiptResponse.json();
-      setReceipt(receiptData);
+
+      const res = await loadScript(
+        'https://checkout.razorpay.com/v1/checkout.js'
+      );
   
-      // Generate random number
-      const randomNum = Math.floor(Math.random() * 90000) + 10000;
-      setRn(randomNum);
-      rno= randomNum;
-      // Use the updated receipt state in the subsequent logic
-      tno = receiptData;
+      if (!res) {
+        alert('Razorpay SDK failed to load. Are you online?');
+        return;
+      }
   
-      // Update MongoDB with payment details
-      const updateHistoryResponse = await fetch(`${process.env.REACT_APP_API_URL}/changehistory`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          no_plate,
-          rno: randomNum, // Use the updated randomNum directly
-          tno,
-        }),
-      });
-      const updatedHistoryData = await updateHistoryResponse.json();
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/orders`);
   
-      // Update paymentData state
-      setPaymentData(updatedHistoryData);
-      mdate = updatedHistoryData.memodate;
-      pdate = updatedHistoryData.paydate;
+      if (!result) {
+        alert('Server error. Are you online?');
+        return;
+      }
   
-      // Navigate to the receipt page after processing the payment
-      navigate('/receipt');
+      const { amount, id: order_id, currency } = result.data;
+  
+      const options = {
+        key: 'rzp_test_UXwDn93TnrUjql', // Enter the Key ID generated from the Dashboard
+        amount: amount.toString(),
+        currency: currency,
+        name: 'E Parking Adimisrty.',
+        description: 'Pay your find here',
+        image: { logo },
+        order_id: order_id,
+        handler: async function (response) {
+          const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+          };
+          console.log("before success");
+
+          tno=response.razorpay_payment_id;
+          rno=response.razorpay_order_id;
+
+          console.log(tno);
+          console.log(rno);
+
+         
+
+          const updateHistoryResponse = await fetch(`${process.env.REACT_APP_API_URL}/changehistory`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+              no_plate,
+              rno,
+              tno,
+            }),
+          });
+  
+          const updatedHistoryData = await updateHistoryResponse.json();
+          console.log(updatedHistoryData);
+  
+          // Update paymentData state
+          setPaymentData(updatedHistoryData);
+          mdate = updatedHistoryData.memodate;
+          pdate = updatedHistoryData.paydate;
+  
+          // Navigate to the receipt page after processing the payment
+          navigate('/receipt');
+
+
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/success`, data);
+  
+          alert(result.data.msg);
+        },
+        prefill: {
+          name: 'E Parking Adminsitry',
+          email: 'example@example.com',
+          contact: '9999999999',
+        },
+        notes: {
+          address: 'Example Corporate Office',
+        },
+        theme: {
+          color: '#61dafb',
+        },
+      };
+  
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+
     } catch (error) {
       console.error('Error processing payment:', error);
     }
+    
   };
   const handleShowReceipt = () => {
     setShowReceiptDetails(true);

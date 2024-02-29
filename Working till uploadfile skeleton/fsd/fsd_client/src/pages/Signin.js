@@ -111,7 +111,7 @@ export default function Signin() {
     
   
     return (
-      <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '50px' }}>
+      <MDBContainer className="my-10 gradient-form signin" style={{ marginLeft: '50px' }}>
 
       <MDBRow>
 
@@ -121,7 +121,7 @@ export default function Signin() {
             <div className="text-center">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                 style={{width: '185px'}} alt="logo" />
-              <h4 className="mt-1 mb-5 pb-1">No Parking Administry Team</h4>
+              <h3 className="mt-1 mb-5 pb-1">No Parking Administry</h3>
             </div>
 
             <p>Please login to your account</p>
@@ -167,9 +167,11 @@ export default function Signin() {
           <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
 
             <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-              <h4 className="mb-4 black">E-Parking Challan System</h4>
-              <p className="small mb-0 white-text">
+              <h3 className="mb-4 black">E-Parking Challan System</h3>
+              <p className="small mb-0 white-text"><strong>
               Our mission is to streamline the parking management process, making it efficient and convenient for both officers and vehicle owners. As an officer, you play a crucial role in enforcing parking regulations and ensuring the smooth flow of traffic.
+              </strong>
+             
               </p>
             </div>
 

@@ -57,63 +57,6 @@ const Receipt = () => {
 
   const handleDownload = async () => {
 
-    // try {
-    //   const res = await fetch("${process.env.REACT_APP_API_URL}/changehistory", {
-    //     method: "POST",
-    //     headers: { "Content-type": "application/json" },
-    //     body: JSON.stringify({
-    //       no_plate,
-    //     }),
-        
-    //   });
-    //   const data2 = await res.json();
-      
-    // } catch (error) {
-    //   console.error('Error fetching details:', error);
-    // }
-
-
-    // function inchesToPoints(inches) {
-    //   // 1 inch = 72 points
-    //   return inches * 72;
-    // }
-    // try {
-    //   // Capture HTML content as an image using html2canvas
-    //   const canvas = await html2canvas(receiptContainerRef.current);
-  
-    //   // Convert the image to a PDF using jspdf
-    //   const imgData = canvas.toDataURL('image/png');
-      
-    //   // Specify the default width and height in inches
-    //   let pdfWidthInches = 8.5;  // default for letter size paper
-    //   let pdfHeightInches = 11;  // default for letter size paper
-  
-    //   // Adjust dimensions based on screen size
-    //   const screenWidth = window.innerWidth;
-    //   if (screenWidth <= 600) {
-    //     // For small screens, you might want different dimensions
-    //     pdfWidthInches = 4.25;
-    //     pdfHeightInches = 5.5;
-    //   }
-  
-    //   // Convert inches to points
-    //   const pdfWidthPoints = inchesToPoints(pdfWidthInches);
-    //   const pdfHeightPoints = inchesToPoints(pdfHeightInches);
-  
-    //   // Create a PDF with the correct size based on the captured content
-    //   const pdf = new jsPDF({
-    //     unit: 'pt',
-    //     format: [pdfWidthPoints, pdfHeightPoints],
-    //   });
-  
-    //   pdf.addImage(imgData, 'PNG', 0, 0, pdfWidthPoints, pdfHeightPoints);
-    //   pdf.save('receipt.pdf');
-    // } catch (error) {
-    //   console.error('Error generating PDF:', error);
-    // }
-
-
-
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -160,7 +103,7 @@ const Receipt = () => {
 
     doc.text(`From: ${detailsData.name}`, 20, 140);
     doc.text(`Address: ${detailsData.address}`, 20, 150);
-    doc.text(`Payment received from ${detailsData.name} of amount 2000Rs. for parking violation`, 20, 160, { maxWidth: doc.internal.pageSize.width - 40 });
+    doc.text(`Payment received from ${detailsData.name} of amount 1000Rs. for parking violation`, 20, 160, { maxWidth: doc.internal.pageSize.width - 40 });
     doc.text(`Payment-Date: ${pdate}`, 20, 180);
     doc.text(`Transaction_No: ${tno}`, 20, 190);
 
@@ -185,8 +128,8 @@ const Receipt = () => {
 
         <h5>Payment Details</h5>
         <p>From: {name}</p>
-        <p>Address: {detailsData.address}</p>
-        <p>Payment received from {name} of amount 2000Rs. for parking violation</p>
+        {/* <p>Address: {detailsData.address}</p> */}
+        <p>Payment received from {name} of amount 1000Rs. for parking violation</p>
         <p>Paymentdate: {pdate}</p>
          <p>Transaction No: {tno}</p>
       </div>

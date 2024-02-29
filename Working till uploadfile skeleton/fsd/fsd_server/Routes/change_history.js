@@ -17,28 +17,23 @@ router.post('/changehistory', async(req, res) => {
     try {
         const { no_plate, rno, tno } = req.body;
         console.log("abcdef");
+        console.log(rno);
+        console.log(tno);
         const p = await Person.findOne({ no_plate: no_plate });
         const p1 = p._id;
         console.log(p);
         // const mold = await memohistory.findOne({ person: p1, flag: "false" });
         // console.log(mold);
-        const m = await memohistory.findOneAndUpdate({ person: p1, flag: "false" }, {
-            $set: {
-                paydate: new Date(),
-                flag: "true",
-                receipt_no: rno + '',
-                transaction_no: tno + '',
-            }
-        }, {
-            new: true
-        }, );
+        const updatedMemo = {
+            paydate: new Date(),
+            flag: "true",
+            receipt_no: rno ? rno.toString() : '', // Ensure rno is not undefined
+            transaction_no: tno ? tno.toString() : '', // Ensure tno is not undefined
+        };
 
-
-        // const result = [];
-        // result.push(mold);
-        // result.push(mnew);
-
-        // console.log(result);
+        const m = await memohistory.findOneAndUpdate({ person: p1, flag: "false" }, { $set: updatedMemo }, { new: true });
+        console.log("m is ");
+        console.log(m);
         res.json(m);
 
     } catch (error) {
