@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { luser } from './Signin';
 import Loader from './Loader';
 import Navbar2 from './navbar2';
+import MainNavbar from './mainnavbar';
 import { jwtDecode } from "jwt-decode";
-
+import Footer from './footer';
 
 let gresult;
 let image;
@@ -67,7 +68,9 @@ const OfficerHome = () => {
   };
 
   return (
-    <div>
+    <div className='abc'>
+      <MainNavbar/>
+      
       <Navbar2/>
     <div className="container mt-5">
           
@@ -87,6 +90,7 @@ const OfficerHome = () => {
         </div>
       </div>
     </div>
+    <Footer/>
     </div>
   );
 };

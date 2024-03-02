@@ -21,6 +21,7 @@ import AdminPage from "./pages/AdminPage";
 import MainAdminPage from "./pages/mainAdmin";
 import ForgotPassword from "./pages/forgotPassword";
 import NewPassword from "./pages/newPassword";
+import Footer from "./pages/footer";
 
 function App() {
 

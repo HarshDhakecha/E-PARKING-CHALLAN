@@ -14,12 +14,13 @@
     --hoverScale: 1.08;
 }
 
-.header2 {
-    margin-top: 10px;
+.mainheader {
+    /* margin-bottom: 15px; */
+    padding-bottom: 1px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 90px;
     padding: 0 2rem;
     background-color: var(--mainColor);
     color: var(--textColor);
@@ -87,4 +88,33 @@ nav {
     nav a {
         font-size: 1.5rem;
     }
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.additional-text {
+    margin-left: 100px;
+    font-size: 30px;
+    font-family: serif;
+    /* margin-bottom: 20px; */
+    letter-spacing: 1px;
+}
+
+.additional-text-container {
+    /* margin-top: 10px; */
+    margin-bottom: 20px;
+    margin-left: 25px;
+}
+
+.additional-text-below {
+    font-size: 15px;
+    color: #aaa;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
 }
