@@ -2,14 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gresult,image } from './Home';
 import { luser } from './Signin';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope,faPhone } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import Navbar2 from './navbar2';
+import MainNavbar from './mainnavbar';
+import Footer from './footer';
+import './details.css';
+
 let mno;
 const Details = () => {
   const [detailsData, setDetailsData] = useState(null);
   const [no_plate, setNoplate] = useState(null);
   const [memonumber, setMemonumber] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [showHelloMessage, setShowHelloMessage] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [loading2, setLoading2] = useState(false); 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,9 +64,24 @@ const Details = () => {
     } catch (error) {
       console.error('Error processing payment:', error);
     }
-    setShowHelloMessage(true);
-    // console.log("mno "+mno);
+
+
     try {
+    setShowHelloMessage(false);
+    setLoading(true);
+
+    setTimeout(async () => {
+      setLoading(false); 
+      setShowHelloMessage(true); 
+
+    }, 2000);
+  } catch (error) {
+    console.error('Error processing payment:', error);
+    setLoading(false); // Hide the loading spinner and text in case of an error
+  }    
+  
+  
+  try {
       const resmemo = await fetch(`${process.env.REACT_APP_API_URL}/setmemonumber`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -67,11 +97,22 @@ const Details = () => {
   };
 
   const handleSend = async () => {
+    setShowConfirmation(true);
+    
+  };
+
+  const handleConfirm =async () => {
+
+    setShowConfirmation(false);
+    setIsSending(true);
+    setLoading2(true);
+
+    try{
     let obj = {
       no_plate: detailsData.no_plate,
     };
     console.log(obj);
-    window.confirm("Are you sure?");
+
     console.log("called");
     const pdfContent = document.getElementById('pdf');
     const canvas = await html2canvas(pdfContent);
@@ -102,59 +143,149 @@ const Details = () => {
     });
 
     const datas = await resp.json();
-    window.alert(datas.message);
+    setSuccess(true);
+  } catch (error) {
+    console.error('Error sending memo:', error);
+    window.alert('Error sending memo. Please try again.');
+  } finally {
+    setIsSending(false);
+    setLoading2(false);
 
-    // navigate('/memo', { state: { pdfDataUri: dataUri } });
+    setShowConfirmation(false);
+  }
   };
 
+  const handleCancel = () => {
+    setShowConfirmation(false);
+  };
+
+
   return (
-    <div className="container mt-5">
-      {/* <h2>Welcome to the Details Page!</h2> */}
-      {detailsData && (
-        <div>
-          <p>Name: {detailsData.name}</p>
-          <p>Address: {detailsData.address}</p>
-          <p>Email: {detailsData.email}</p>
-          <p>No_plate: {detailsData.no_plate}</p>
-          <p>Vehicle_type: {detailsData.vehicle_type}</p>
-          <p>Phone no.: {detailsData.phone}</p>
+    <div>
+      <MainNavbar />
+      <Navbar2 />
 
-          <button onClick={handleGenerate}>Generate</button>
+      <div className="container mt-5">
+        {detailsData && (
+          <div className="details-container">
+            <h2 className="details-header">Here is the User Details</h2>
+            <div className="details-item">Owner Name: {detailsData.name}</div>
+            <div className="details-item">Address: {detailsData.address}</div>
+            <div className="details-item">Email: {detailsData.email}</div>
+            <div className="details-item">No_plate: {detailsData.no_plate}</div>
+            <div className="details-item">Vehicle_Model: {detailsData.vehicle_type}</div>
 
-          {showHelloMessage && (
-            <div id='pdf' style={{ border: '1px solid #ccc', padding: '10px', marginTop: '10px' }}>
-              <p>Date: {new Date().toString()}</p>
-              <p>Memo Number: {memonumber}</p>
-              <br />
-              <h2>PARKING VIOLATION NOTICE</h2>
-              <br />
+            <button onClick={handleGenerate}>Generate Memo</button>
+          </div>
+        )}
 
-              <p>RECIPIENT</p>
-              <br />
-              <p>{detailsData.name}</p>
-              <p>{detailsData.phone}</p>
-              <p>{detailsData.email}</p>
-              <p>Dear {detailsData.name}</p>
-              <br />
-              <p>
-                Your vehicle {detailsData.vehicle_type} with a vehicle registration number {detailsData.no_plate} has been captured by our Respected cop {detailsData.lcop}. <br />
-                You can collect it from {detailsData.station}. <br />
-                We do have photos and CCTV feeds that serve as proof.<br />
-                We do understand that spaces are limited, so please comply with the specified rules to promote harmonious relationships with other tenants. <br />
-                {image && <img src={URL.createObjectURL(image)} alt="Uploaded" style={{ maxWidth: '100%', height: 'auto' }} />}
-                If the car being referred to in this document doesn't belong to you, then please let us know immediately to avoid confusion. <br />
-                Make sure to pay charges before you go to the station. <br />
-                You can pay the charges for this violation by clicking the link attached below in the mail. <br /> Thank you for your understanding.
-              </p>
-              <h5>Ministry of Parking Violation</h5>
 
-              <button onClick={handleSend}>Send</button>
-            </div>
-          )}
-        </div>
+{loading && (
+  <div className="loading-spinner-container">
+    <div className="loading-spinner">
+      Generating Memo...
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+)}
+
+        {showHelloMessage && (
+  <div id="pdf" className="memo-container">
+    <p className="memo-date">Date: {new Date().toLocaleDateString()}</p>
+    <p className="memo-memo-number">Memo Number: {memonumber}</p>
+    <br />
+    <h2 className="memo-title">PARKING VIOLATION NOTICE</h2>
+    <br />
+
+    <div className="memo-recipient">
+      <p>RECIPIENT</p>
+      <br />
+    </div>
+
+    <p className="memo-dear">Mr. {detailsData.name},</p>
+    <br />
+    <p className="memo-details">
+        We regret to inform you that your vehicle, a <span className="vehicle-type">{detailsData.vehicle_type}</span> with the registration number <span className="no-plate">{detailsData.no_plate}</span>,
+        has been captured by our esteemed law enforcement officer,<span className="vehicle-type"> {detailsData.lcop}</span>. <br />
+        You may retrieve your vehicle at your earliest convenience from {detailsData.station}. <br />
+        <span className="vehicle-type">We possess photographic evidence and CCTV footage validating this incident.</span> <br />
+        Considering the limited parking spaces available, we kindly request your cooperation with the established rules to maintain a harmonious environment for all residents. <br />
+        {image && <img src={URL.createObjectURL(image)} alt="Vehicle Image" className="memo-image" />}
+        If the mentioned vehicle does not belong to you, please notify us promptly to avoid any misunderstanding. <br />
+
+        <span className="memo-payment-info">
+        Ensure that all charges are settled before visiting the station. <br />
+        Payment for this violation can be made by following the link provided in the attached email.
+    </span>
+    <br /> Thank you for your understanding and cooperation.
+    </p>
+
+    <div className="memo-contact-details">
+        For any inquiries or assistance, please contact our team at:
+        <br />
+        <span className="memo-contact-number"> <FontAwesomeIcon icon={faEnvelope} /> challan.support@gmail.com
+</span><br />
+
+        <span className="memo-contact-number"> <FontAwesomeIcon icon={faPhone} />+01 234 567 88</span><br />
+        <span className="memo-contact-number"><FontAwesomeIcon icon={faPhone} />+01 234 567 89</span>
+    </div>
+
+    <h5 className="memo-signature">Ministry of Parking Violation</h5>
+
+    
+  </div>
+ 
+)}
+   {showHelloMessage && (
+        <button className="memo-send-button" onClick={handleSend} disabled={isSending || success}>
+           Send
+        </button>
       )}
+
+{loading2 && (
+        <div className="loading-spinner-container">
+          <div className="loading-spinner">
+            Sending Memo...
+            <div className="spinner-border" role="status">
+            {/* <div className="custom-spinner"></div> */}
+            </div>
+          </div>
+        </div>
+      )}  
+
+      {success && (
+        <Modal show={success} onHide={() => setSuccess(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Memo sent successfully! <br />
+            <button onClick={() => navigate('/officerhome')}>Back to Dashboard</button>
+          </Modal.Body>
+        </Modal>
+      )}
+
+<Modal show={showConfirmation} onHide={handleCancel}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to send the memo?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleConfirm}>
+              Confirm
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+      <Footer />
     </div>
   );
 };
+
 
 export default Details;

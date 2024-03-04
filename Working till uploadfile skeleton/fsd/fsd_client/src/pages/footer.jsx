@@ -20,7 +20,7 @@ export default function Footer() {
               </p>
               <p>
                 <FontAwesomeIcon icon={faEnvelope} className="me-3" />
-                echallan.info@example.com
+                echallan.support@gmail.com
               </p>
               
               <p>

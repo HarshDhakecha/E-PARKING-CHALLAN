@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { luser } from './Signin';
+import Navbar2 from './navbar2';
+import MainNavbar from './mainnavbar';
+import Footer from './footer';
 import './history.css'; 
 
 const History = () => {
@@ -44,42 +47,54 @@ const History = () => {
   };
 
   return (
-    <div className="container mt-3">
-      <h3 className="text-center mb-4">Hello {luser}, here is your history</h3>
+    <div>
+      <MainNavbar />
+      <Navbar2 />
 
-      {detailsData.map((obj, index) => (
-        <div key={index} className="card mt-3 custom-card">
-          <div className="status-circle-wrapper">
-            <div className={`status-circle ${obj.flag === 'true' ? 'green' : 'red'}`}></div>
+      <div className="container mt-3">
+        {/* <h3 className="text-center mb-4">Memo History for {luser}</h3> */}
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">No Plate</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {detailsData.map((obj, index) => (
+              <tr key={index}>
+                <th scope="row">{index + 1}</th>
+                <td>{obj.pobj.no_plate}</td>
+                <td>{obj.date}</td>
+                <td className={obj.flag === 'true' ? 'text-success' : 'text-danger'}>
+                  {obj.flag === 'true' ? 'Paid' : 'Unpaid'}
+                </td>
+                <td>
+                  <button
+                    className={`btn btn-link toggle-button ${expandedIndices.includes(index) ? 'expanded' : ''}`}
+                    onClick={() => handleToggleDetails(index)}
+                  >
+                    {expandedIndices.includes(index) ? 'Less' : 'More'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {expandedIndices.map((index) => (
+          <div key={index} className="card mt-3 custom-card">
+            <div className="card-body">
+              {/* Additional details for the expanded row */}
+              {/* ... */}
+            </div>
           </div>
-          <div className="card-body">
-            <p className="card-text"><strong>No Plate:</strong> {obj.pobj.no_plate}</p>
-            <p className="card-text"><strong>Status:</strong> {obj.flag === 'true' ? 'Paid' : 'Unpaid'}</p>
-            
-            {expandedIndices.includes(index) && (
-              <>
-                <p className="card-text"><strong>Memo-Number:</strong> {obj.memo_number}</p>
-                <p className="card-text"><strong>Name:</strong> {obj.pobj.name}</p>
-                <p className="card-text"><strong>Address:</strong> {obj.pobj.address}</p>
-                <p className="card-text"><strong>Vehicle Type:</strong> {obj.pobj.vehicle_type}</p>
-                <p className="card-text"><strong>MemoDate:</strong> {obj.date}</p>
-                {obj.flag === 'true' && (
-                  <>
-                    <p className="card-text"><strong>Pay Date:</strong> {obj.status}</p>
-                  </>
-                )}
-              </>
-            )}
+        ))}
+      </div>
 
-            <button
-              className="btn btn-link"
-              onClick={() => handleToggleDetails(index)}
-            >
-              {expandedIndices.includes(index) ? 'Less' : 'More'}
-            </button>
-          </div>
-        </div>
-      ))}
+      <Footer />
     </div>
   );
 };
