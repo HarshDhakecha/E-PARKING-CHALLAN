@@ -25,15 +25,14 @@ const loadScript = (src) => {
 };
 
 
-const Memo_home = () => {
+const ViewPendingMemo = () => {
   const [detailsData, setDetailsData] = useState(null);
   const [showReceiptDetails, setShowReceiptDetails] = useState(false);
   const [paymentData, setPaymentData] = useState();
   const [receipt, setReceipt] = useState(null);
   const [data, setdata] = useState(null);
   const [rn, setRn] = useState(null);
-  // const [tno, setTno] = useState(null); 
-  // const [rno, setRno] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,7 +114,7 @@ const Memo_home = () => {
       const { amount, id: order_id, currency } = result.data;
   
       const options = {
-        key: 'rzp_test_UXwDn93TnrUjql', // Enter the Key ID generated from the Dashboard
+        key: 'rzp_test_UXwDn93TnrUjql', 
         amount: amount.toString(),
         currency: currency,
         name: 'E Parking Adimisrty.',
@@ -212,45 +211,13 @@ const Memo_home = () => {
     return null;
   };
 
-  const handleViewMemo = () => {
-    navigate('/viewpendingmemo');
-  };
-
-  const handleViewHistory = () => {
-    navigate('/personhistory');
-  };
 
   return (
     <div>
     <MainNavbar/>
     <Navbar/>
-    <div className='container flex-grow-1 mt-5'>
-  <div className='row'>
-    <div className='col-md-4 mx-auto mb-3'>
-      <div className='card card-view-memo shadow p-3 bg-white rounded w-100 d-flex flex-column align-items-center'>
-        <div className='card-body flex-grow-1 d-flex flex-column align-items-center'>
-          <FontAwesomeIcon icon={faEye} className='card-icon' size='2x' />
-          <h4 className='card-title'>View Memo</h4>
-          <button onClick={handleViewMemo} className='btn btn-primary'>
-            View Pending Memo
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div className='col-md-4 mx-auto mb-3'>
-      <div className='card card-view-history shadow p-3 bg-white rounded w-100 d-flex flex-column align-items-center'>
-        <div className='card-body flex-grow-1 d-flex flex-column align-items-center'>
-          <FontAwesomeIcon icon={faListUl} className='card-icon' size='2x' />
-          <h4 className='card-title'>View Memo History</h4>
-          <button onClick={handleViewHistory} className='btn btn-primary'>
-            View Memo History
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+ 
+{renderDetails()}
 
 
                             
@@ -260,5 +227,4 @@ const Memo_home = () => {
 };
 
 
-export default Memo_home;
-export { name, mdate, pdate,tno,rno,mno };
+export default ViewPendingMemo;

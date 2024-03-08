@@ -22,6 +22,7 @@ import MainAdminPage from "./pages/mainAdmin";
 import ForgotPassword from "./pages/forgotPassword";
 import NewPassword from "./pages/newPassword";
 import Footer from "./pages/footer";
+import ViewPendingMemo from "./pages/viewPendingMemo";
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
              <Route path="/mainadminhome" element={<PrivateRouteMainAdmin element={<MainAdminPage />} />}/>
              <Route path="/forgotpassword" element={<ForgotPassword />} />
              <Route path="/newpassword" element={<NewPassword />} />
+             <Route path="/viewpendingmemo" element={<ViewPendingMemo />} />
 
              <Route path="*" element={<Signin />} />
         

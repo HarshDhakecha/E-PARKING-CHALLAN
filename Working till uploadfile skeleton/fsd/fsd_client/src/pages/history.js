@@ -4,6 +4,8 @@ import { luser } from './Signin';
 import Navbar2 from './navbar2';
 import MainNavbar from './mainnavbar';
 import Footer from './footer';
+import { Modal, Button } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import './history.css';
 
 const History = () => {
@@ -13,6 +15,8 @@ const History = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
 
   useEffect(() => {
@@ -67,6 +71,8 @@ const History = () => {
 
   const handleNotifyAll = async () => {
     try {
+      setLoading(true);
+  
       const response = await fetch(`${process.env.REACT_APP_API_URL}/notifyAll`, {
         method: 'POST',
         headers: {
@@ -74,25 +80,32 @@ const History = () => {
         },
         body: JSON.stringify({
           luser,
-          memos: detailsData.filter((obj) => obj.flag === 'false').map((obj) => obj.memo_number),
+          memos: detailsData.filter((obj) => obj.flag === 'false'),
         }),
       });
-
+  
       if (response.ok) {
         console.log('Notify emails sent successfully.');
-        // You can add additional logic or feedback to the user if needed.
+        // Open the modal directly when emails are sent successfully
+        setShowAlert(true);
       } else {
         console.error('Error sending notification emails.');
+        window.alert('Error sending notification emails. Please try again later.');
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
   };
+  
+  
+
 
   const renderAdditionalDetails = (obj, index) => {
     if (expandedIndex === index) {
       return (
-        <div className="additional-details">
+        <div className="additional-details">     
           <div className="table-responsive">
             <table className="table table-bordered table-sm">
               <tbody>
@@ -140,6 +153,7 @@ const History = () => {
 
       return (
         <div>
+
         <table className="table">
           <thead>
             <tr>
@@ -182,11 +196,19 @@ const History = () => {
         </table>
 
         {unpaidMemos.length > 0 && (
-        <div className="text-end">
-          <button className="btn btn-primary" onClick={handleNotifyAll}>
-            Notify All
+        <div className="text-center mt-3">
+        <div className="d-flex justify-content-center">
+          <button className="btn btn-primary" onClick={handleNotifyAll} disabled={loading}>
+            {loading ? (
+              <>
+                Sending... <Spinner animation="border" size="sm" />
+              </>
+            ) : (
+              'Notify All'
+            )}
           </button>
         </div>
+      </div>
       )}
       
         </div>
@@ -194,6 +216,8 @@ const History = () => {
     } else {
       // Render the complete table
       return (
+        <div>
+          
         <table className="table">
           <thead>
             <tr>
@@ -234,7 +258,9 @@ const History = () => {
             ))}
           </tbody>
         </table>
+        </div>
       );
+      
     }
   };
 
@@ -305,7 +331,22 @@ const History = () => {
 
           </div>
         </div>
+
+
         {renderTable()}
+        <Modal show={showAlert} onHide={() => setShowAlert(false)}>
+  <Modal.Header closeButton>
+    <Modal.Title>Emails Sent Successfully</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    The notification emails have been sent successfully.
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="primary" onClick={() => setShowAlert(false)}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
       </div>
 
       <Footer />

@@ -19,18 +19,15 @@ router.post("/memologin", async(req, res) => {
 
     try {
         const professor = await Person.findOne({
-            no_plate: vehicleNumber
+            no_plate: vehicleNumber,
 
         });
-        // console.log("faststst");
         console.log(professor);
 
         if (!professor) {
             return res.status(401).json({ error: "Incorrect Date of Birth" });
         } else if (professor) {
-            //const passwordMatch = await bcrypt.compare(password, customer.password);
-            //console.log(password);
-            //console.log(customer.password);
+
             console.log(dob.toString());
             console.log(professor.date_of_birth);
             if (dob.toString() == professor.date_of_birth.toString()) {
@@ -43,7 +40,6 @@ router.post("/memologin", async(req, res) => {
                     .status(401)
                     .json({ error: "Incorrect Date of Birth" });
             }
-            // dobMatch = false;
             const payload = {
                 user: {
                     id: professor._id,

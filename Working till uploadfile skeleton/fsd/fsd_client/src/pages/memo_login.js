@@ -1,68 +1,152 @@
 import React, { useState } from 'react';
 import './memo_login.css'; // Import the CSS file
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput
+}
+from 'mdb-react-ui-kit';
 let no_plate;
 
 const Memo_login = () => {
-  const [vehicleNumber, setVehicleNumber] = useState('');
-  const [dob, setDob] = useState('');
+
+  let navigate = useNavigate();
+
+  const handleForgotPasswordClick = () => {
+    navigate("/forgotpassword");
+  };
+
+ 
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [registrationSuccessMessage, setRegistrationSuccessMessage] =
+  useState(null);
+  const [user, setUser] = useState({
+    vehicleNumber: "",
+    dob: "",
+});
 
-  const handleLogin = async () => {
-    try {
-      // Perform authentication with the backend
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/memologin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ vehicleNumber, dob }),
-      });
+let name, value;
 
-      const data = await res.json()
+const handleInputs = (e) => {
+  name = e.target.name;
+  value = e.target.value;
 
-      if (res.status === 200) {
+  setUser({ ...user, [name]: value });
+};
+
+const PostData = async (e) => {
+  e.preventDefault();
+
+  const { vehicleNumber, dob } = user;
+
+  if (!vehicleNumber || !dob) {
+    window.alert("Please fill all the fields properly");
+    navigate("/login");
+  } else {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/memologin`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        vehicleNumber,
+        dob,
+      }),
+    });
+
+    const data = await res.json()
+
+    if (res.status === 200) {
         console.log(data);
        
         sessionStorage.setItem('userToken', data.userToken);
         navigate('/memo_home');
         no_plate = vehicleNumber;
       } else {
-        // Authentication failed, handle error
         const data = await res.json();
         setError(data.message || 'Login failed');
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      setError('An unexpected error occurred');
+      }     
+
+      if (res.status == 401) {
+      console.log("400001");
+      console.log(data);
+
+      window.alert("Incorrect username or password");
+      navigate("/login");
     }
-  };
+
+  }
+  
+};
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <div className="input-group">
-        <label>Vehicle Number:</label>
-        <input
-          type="text"
-          value={vehicleNumber}
-          onChange={(e) => setVehicleNumber(e.target.value)}
-        />
-      </div>
-      <div className="input-group">
-        <label>Date of Birth:</label>
-        <input
-          type="date"
-          value={dob}
-          onChange={(e) => setDob(e.target.value)}
-        />
-      </div>
-      {error && <p className="error-message">{error}</p>}
-      <button className="login-button" onClick={handleLogin}>
-        Login
-      </button>
-    </div>
+    <MDBContainer className="my-10 gradient-form signin" style={{ marginLeft: '50px' }}>
+
+      <MDBRow>
+
+        <MDBCol col='10' className="mb-5">
+          <div className="d-flex flex-column ms-10">
+
+            <div className="text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                style={{width: '185px'}} alt="logo" />
+              <h3 className="mt-1 mb-5 pb-1">No Parking Administry</h3>
+            </div>
+
+            <p>Please login to your account</p>
+
+            <form method="post" onSubmit={PostData}>
+
+             {registrationSuccessMessage && (
+                        <div className="alert alert-success" role="alert">
+                          {registrationSuccessMessage}
+                        </div>
+                      )} 
+  
+            <MDBInput wrapperClass='mb-4' label='Number Plate'  type="text"
+                            id="vehicleNumber"
+                            name="vehicleNumber"
+                            value={user.vehicleNumber}
+                            onChange={handleInputs}/>
+                            
+            <MDBInput wrapperClass='mb-4' label='Date of Birth'type="date"
+                            id="dob"
+                            name="dob"
+                            value={user.dob}
+                            onChange={handleInputs}/>
+
+
+            <div className="text-center pt-1 mb-5 pb-1">
+                <button className="log">SignIn</button>
+            </div>
+            
+            </form>
+
+          </div>
+
+        </MDBCol>
+
+        <MDBCol col='6' className="mb-5">
+          <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
+
+            <div className="text-white px-3 py-4 p-md-5 mx-md-4">
+              <h3 className="mb-4 black">E-Parking Challan System</h3>
+              <p className="small mb-0 white-text"><strong>
+              Our mission is to streamline the parking management process, making it efficient and convenient for both officers and vehicle owners. As an officer, you play a crucial role in enforcing parking regulations and ensuring the smooth flow of traffic.
+              </strong>
+             
+              </p>
+            </div>
+
+          </div>
+
+        </MDBCol>
+
+      </MDBRow>
+
+    </MDBContainer>
   );
 };
 
