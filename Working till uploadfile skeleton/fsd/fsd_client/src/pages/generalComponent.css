@@ -1,9 +1,9 @@
 .container {
-    margin: 20px;
     padding: 20px;
     background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 79vw;
 }
 
 .loading-overlay {
@@ -34,7 +34,7 @@
 }
 
 .officer-container {
-    width: 100%;
+    width: 90%;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

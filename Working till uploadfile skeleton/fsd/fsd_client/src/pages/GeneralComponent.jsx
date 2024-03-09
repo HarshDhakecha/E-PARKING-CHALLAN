@@ -207,7 +207,7 @@ const GenralComponent = (option) => {
   const handleHistoryClick = async (luser) => {
     console.log("officerusername "+luser);
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/fetchhistory`,
+      `${process.env.REACT_APP_API_URL}/fetchAllMemos`,
       {
         method: "post",
         headers: {
@@ -451,6 +451,18 @@ const GenralComponent = (option) => {
             <button onClick={handleSendAnnouncement}>Send Announcement</button>
           </div>
         
+      
+
+    </>
+        )}
+
+{option.option === "DashBoard" && (
+    <>
+     <div className="default-content">
+            <h1>Welcome to the Admin Dashboard</h1>
+            <p>Manage Officers and parking activities with ease!</p>
+            <p>Select an option from the menu to get started!</p>
+          </div>
       
 
     </>
