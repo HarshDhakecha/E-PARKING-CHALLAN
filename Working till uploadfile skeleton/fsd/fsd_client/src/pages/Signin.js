@@ -111,7 +111,7 @@ export default function Signin() {
     
   
     return (
-      <MDBContainer className="my-10 gradient-form signin" style={{ marginLeft: '50px' }}>
+      <MDBContainer className="my-30 gradient-form signin" style={{ marginLeft: '150px' ,marginTop: '30px'}}>
 
       <MDBRow>
 

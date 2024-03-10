@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faListUl } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import './viewpendingmemo.css';
 import logo from '../logo.svg';
 import MainNavbar from './mainnavbar';
 import Footer from './footer';
@@ -192,25 +193,27 @@ const ViewPendingMemo = () => {
   const renderDetails = () => {
     if (data && data.flag === "false" && detailsData) {
       return (
-        <div className="details-info">
-          <p>Memo Number: {data.mno}</p>
-          <p><strong>Name:</strong> {detailsData.name}</p>
-          <p><strong>Address:</strong> {detailsData.address}</p>
-          <p><strong>Number Plate:</strong> {detailsData.no_plate}</p>
-          <p><strong>Vehicle Type:</strong> {detailsData.vehicle_type}</p>
-          <p>Pay the below Charges</p>
-          <button className='pay-button' onClick={handlePay}>Pay</button>
-         
-        </div>
-      );
-    }else{
-      return (
-        <p><strong>No Pending Memo</strong></p>
-      );
-    }
-    return null;
-  };
-
+        <div className="details-container" style={{ marginTop: '2rem' }}>
+    <div className="details-info" style={{ padding: '1rem', border: '1px solid #ddd' }}>
+      <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Memo Number: <span className="highlight" style={{ fontWeight: 'bold' ,color:'red'}}>{data.mno}</span></p>
+      <h2 className="name" style={{ fontSize: '2rem', marginBottom: '1rem' }}>{detailsData.name}</h2>
+      <p style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}><strong>Address:</strong> {detailsData.address}</p>
+      <p style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}><strong>Number Plate:</strong> {detailsData.no_plate}</p>
+      <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}><strong>Vehicle Type:</strong> {detailsData.vehicle_type}</p>
+      <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Pay the below Charges</p>
+      <button className='pay-button' style={{ backgroundColor: '#4CAF50', color: 'white', padding: '0.5rem 1rem', border: 'none', borderRadius: '4px', cursor: 'pointer' }} onClick={handlePay}>Pay</button>
+    </div>
+  </div>
+    );
+  } else {
+    return (
+      <div className="no-memo-card">
+      <p className="no-memo-text"><strong>No Pending Memo</strong></p>
+    </div>
+    );
+  }
+  return null;
+}
 
   return (
     <div>

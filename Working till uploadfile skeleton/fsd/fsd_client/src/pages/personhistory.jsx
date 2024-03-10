@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { no_plate } from './memo_login';
 import './personhistory.css';
 import { jsPDF } from 'jspdf';
+import MainNavbar from './mainnavbar';
 import Navbar from './navbar';
+import Footer from './footer';
 
 const Personhistory = () => {
   const [detailspData, setDetailspData] = useState([]);
@@ -43,6 +45,7 @@ const Personhistory = () => {
         });
 
         const data = await res.json();
+        console.log(data);
         setDetailsData(data);
       } catch (error) {
         console.error('Error fetching details:', error);
@@ -120,61 +123,88 @@ const handleDownloadReceipt = (obj) => {
 
   return (
     <div>
-      <Navbar/>
-    
+    <MainNavbar />
+    <Navbar />
+
     <div className="container mt-3">
-      
-      <h3 className="text-center mb-4">Hello {detailspData.name}, here is your history</h3>
 
-      {detailsData.map((obj, index) => (
-       
-        <div key={index} className="card mt-3 custom-card">
-          <div className="status-circle-wrapper">
-            <div className={`status-circle ${obj.flag === 'true' ? 'green' : 'red'}`}></div>
-          </div>
-          <div className="card-body">
-            <p className="card-text"><strong>Status:</strong> {obj.flag === 'true' ? 'Paid' : 'Unpaid'}</p>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Memo Number</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(detailsData) && detailsData.map((obj, index) => (
+            <React.Fragment key={index}>
+              <tr>
+                <th scope="row">{index + 1}</th>
+                <td>{obj.mno}</td>
+                <td>{new Date(obj.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                <td className={obj.flag === 'true' ? 'text-success' : 'text-danger'}>
+                  {obj.flag === 'true' ? 'Paid' : 'Unpaid'}
+                </td>
+                <td>
+  <button
+    className={`btn btn-link toggle-button ${expandedIndices.includes(index) ? 'expanded' : ''}`}
+    onClick={() => handleToggleDetails(index)}
+  >
+    {expandedIndices.includes(index) ? (
+      <i className="bi bi-dash"></i>
+    ) : (
+      <i className="bi bi-plus"></i>
+    )}
+  </button>
+  {obj.flag === 'true' && (
+    <button
+      className="btn btn-primary"
+      onClick={() => handleDownloadReceipt(obj)}
+    >
+      Download Receipt
+    </button>
+  )}
+</td>
 
-            {expandedIndices.includes(index) ? (
-              <>
-                <p className="card-text"><strong>Officer Name:</strong> {obj.pobj.name}</p>
-                <p className="card-text"><strong>Station:</strong> {obj.pobj.station}</p>
-                <p className="card-text"><strong>Vehicle Type:</strong> {detailspData.vehicle_type}</p>
-                <p className="card-text"><strong>Number Plate:</strong> {detailspData.no_plate}</p>
-                <p className="card-text"><strong>MemoDate:</strong> {obj.date}</p>
-                {obj.flag === 'true' && (
-                  <>
-                    <p className="card-text"><strong>PayDate:</strong> {obj.status}</p>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                <p className="card-text"><strong>Number Plate:</strong> {detailspData.no_plate}</p>
-                {/* <p className="card-text"><strong>MemoDate:</strong> {obj.date}</p> */}
-              </>
-            )}
-            {obj.flag === 'true' && (
-              <div className="text-center mt-3">
-                <button
-                  className="btn btn-primary download-button"
-                  onClick={() => handleDownloadReceipt(obj)}
-                >
-                  Download Receipt
-                </button>
-              </div>
-            )}
-            <button
-              className="btn btn-link"
-              onClick={() => handleToggleDetails(index)}
-            >
-              {expandedIndices.includes(index) ? 'Less' : 'More'}
-            </button>
-          </div>
-        </div>
-      ))}
+              </tr>
+              <tr>
+                <td colSpan="5">
+                {expandedIndices.includes(index) && (
+                    <div className="additional-details">
+                      <table className="table table-bordered table-sm">
+                        <tbody>
+                          <tr>
+                            <th scope="row">Memo Number</th>
+                            <td>{obj.mno}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Owner Name</th>
+                            <td>{obj.pobj.name}</td>
+                          </tr>
+                          
+                          
+                          {obj.flag === 'true' && (
+                            <tr>
+                              <th scope="row">Pay Date</th>
+                              <td>{new Date(obj.status).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
     </div>
-    </div>
+    <Footer />
+  </div>
   );
 };
 

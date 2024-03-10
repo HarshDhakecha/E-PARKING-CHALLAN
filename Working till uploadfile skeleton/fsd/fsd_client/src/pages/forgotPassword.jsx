@@ -85,7 +85,7 @@ export default function ForgotPassword() {
   };
   
   return (
-    <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '50px' }}>
+    <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '150px' ,marginTop: '30px'}}>
         <MDBRow>
             <MDBCol col='10' className="mb-5">
                 <div className="d-flex flex-column ms-10">
