@@ -94,7 +94,7 @@ const OfficerHome = () => {
     <div className='abc d-flex flex-column min-vh-100'>
       <MainNavbar />
       <Navbar2 />
-      <div className='container flex-grow-1 mt-5'>
+      <div className='container flex-grow-1 mt-5' style={{marginLeft:'150px'}}>
         <div className='row'>
           <div className='col-md-4 d-flex'>
             <div className='card card-capture-photo shadow p-3 mb-5 bg-white rounded w-100 d-flex flex-column align-items-center'>

@@ -184,5 +184,4 @@ export default function Signin() {
     </MDBContainer>
   );
 }
-//<p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <Link to="/register" className="fw-bold text-body"><u>Register here</u></Link></p>
 export {luser,uname};

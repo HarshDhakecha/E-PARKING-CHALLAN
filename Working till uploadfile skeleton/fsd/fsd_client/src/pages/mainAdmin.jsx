@@ -1,164 +1,191 @@
-import React, { useState ,useEffect} from 'react';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons'
+import { motion } from 'framer-motion'
+import logo from './menu.png'
 import {
   faUser,
+  faChalkboardTeacher,
+  faFileAlt,
   faEnvelope,
   faChartBar,
-  faUserSlash,
-} from '@fortawesome/free-solid-svg-icons';
-import './adminhome.css';
-import GenralComponent from './GeneralComponent';
-import { jwtDecode } from "jwt-decode";
-import AdminComponent from './admincomponent';
-let LOGOUT_TIME=3600000;
+  faUserSlash
+} from '@fortawesome/free-solid-svg-icons'
+import './adminhome.css'
+import AdminComponent from './admincomponent'
+import { jwtDecode } from 'jwt-decode'
+let LOGOUT_TIME = 3600000
 
+const AdminPage = () => {
+  const [username, setUsername] = useState('None')
+  const [selectedOption, setSelectedOption] = useState(null)
+  const [menuVisible, setMenuVisible] = useState(true)
+  const [showOptions, setShowOptions] = useState(false)
 
-
-
-const MainAdminPage = () => {
-  const [username,setUsername]=useState("None");
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [menuVisible, setMenuVisible] = useState(true);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("mainadminToken"); // Retrieve the token from where you store it
-    console.log(token);
-
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);
-      console.log("Decoded Token:", decodedToken);
-      
-      // Now you can access the decoded information like decodedToken.user.username
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
+  const handleImageClick = () => {
+    setShowOptions(!showOptions)
   }
-}, []);
-  const handleOptionClick = async (option) => {
-    setSelectedOption(option);
-  };
+
+  const handleOptionClick = async option => {
+    setSelectedOption(option)
+  }
 
   useEffect(() => {
-    // Get the token from where you have stored it (e.g., localStorage, cookies)
-    const token = sessionStorage.getItem('mainadminToken'); // Change this according to your storage method
-  
-    if (token) {
-      // Decode the token
-      const decodedToken = jwtDecode(token);
-  
-      // Access the username from the decoded token
-      const { username } = decodedToken.user;
-  
-      // Set the username in the component state
-      console.log("usernameeee: "+username);
-      setUsername(username);
-    }
-  }, []);
-  
-  useEffect(() => {
-    
-  
-    const pollingInterval = LOGOUT_TIME;
-      const intervalId = setInterval(() => {
+    const pollingInterval = LOGOUT_TIME
 
-      handleLogout(); 
-    }, pollingInterval);
-  
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []); 
-  
+    const intervalId = setInterval(() => {
+      handleLogout() 
+    }, pollingInterval)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   const handleLogout = async () => {
     try {
-      const authToken = sessionStorage.getItem('mainadminToken'); 
-      sessionStorage.removeItem('mainadminToken'); 
-      window.location.href = '/login';
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-  window.addEventListener('beforeunload', async (event) => {
-    event.preventDefault();
-    
-    try {
-      await handleLogout();
-    } catch (error) {
-    }
-  
-    delete event['returnValue'];
-    return;
-  });
+      const authToken = sessionStorage.getItem('mainadminToken') 
+      sessionStorage.removeItem('mainadminToken') 
 
-  const menuIcons = {               
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
+  window.addEventListener('beforeunload', async event => {
+    event.preventDefault()
+
+    try {
+      await handleLogout()
+    } catch (error) {
+    }
+
+    delete event['returnValue']
+    return
+  })
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('mainadminToken') 
+    console.log(token)
+
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token)
+        console.log('Decoded Token:', decodedToken)
+
+      } catch (error) {
+        console.error('Error decoding token:', error)
+      }
+    }
+  }, [])
+
+  const menuIcons = {
     ManageAdmins: faUser,
     RegisterVehicle: faUser,
     AnnouncementMail: faEnvelope,
     Report: faChartBar,
-  };
+  }
 
   const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
-
- 
-
-
+    setMenuVisible(!menuVisible)
+  }
 
   return (
-    <div className={`admin-page ${menuVisible ? '' : 'collapsed'}`}>
-      <div className="menu-container">
-        <div className="logo">
-          {/* <h1>Admin Dashboard</h1> */}
-        </div>
-        <button className="menu-toggle" onClick={toggleMenu}>
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-      </div>
-
-      <div className={`side-menu ${menuVisible ? '' : 'hidden'}`}>
-        <div className="menu-items">
-          {Object.keys(menuIcons).map((option) => (
+    <div className='main-container'>
+      <motion.div
+        className='sidebar-container'
+        animate={{ opacity: showOptions ? 1 : 0, x: showOptions ? 0 : -10 }}
+      >
+        {showOptions && (
+          <div>
+            <div style={{height: '9vh',
+    fontSize: '25px',
+    justifyContent: 'center',
+    backgroundColor: 'antiquewhite'}}>E-Parking Challan</div>
             <div
-              className={`menu-item ${selectedOption === option ? 'active' : ''}`}
-              key={option}
-              onClick={() => handleOptionClick(option)}
+              className='option-container'
+              onClick={() => handleOptionClick('ManageAdmins')}
             >
-              <FontAwesomeIcon icon={menuIcons[option]} className="menu-icon" />
-              <span className="menu-name">{option.replace(/([A-Z])/g, ' $1').trim()}</span>
+              Manage Admins
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="main-content">
-        <div className="header">
-          <button className="right-oriented-logout-button" onClick={handleLogout}>
-            <FontAwesomeIcon icon={faSignOutAlt} />
-            <span> Logout</span>
-          </button>
-        </div>
-
-        {selectedOption ? (
-          <div className="selected-option">
-            <AdminComponent option={selectedOption} />
-          </div>
-        ) : (
-          <div className="default-content">
-            <h1>Welcome to the Admin Dashboard</h1>
-            <p>Manage station Admins and Officers with ease!</p>
-            <p>Select an option from the menu to get started!</p>
+            <div
+              className='option-container'
+              onClick={() => handleOptionClick('RegisterVehicle')}
+            >
+             RegisterVehicle
+            </div>
+            <div
+              className='option-container'
+              onClick={() => handleOptionClick('AnnouncementMail')}
+            >
+              AnnouncementMail
+            </div>
+            <div
+              className='option-container'
+              onClick={() => handleOptionClick('Report')}
+            >
+              Report
+            </div>
           </div>
         )}
+      </motion.div>
+      <div className='click-container'>
+        <div className='navigation-container'>
+          <div style={{display:"flex"}}>
+            <div
+              onClick={handleImageClick}
+              style={{
+                width: 50,
+                height: 50,
+                display: 'flex',
+                
+                cursor: 'pointer'
+              }}
+            >
+              <img src={logo} alt='Logo' style={{width:"2vw",height:"4vh",margin:"2vh"}} />
+            </div>
+            <div
+              style={{
+                fontSize: '25px',
+                paddingTop: '1vh',
+                cursor: 'pointer',
+                marginLeft: '1vw'
+              }}
+              onClick={() => handleOptionClick('DashBoard')}
+            >
+              Dashboard
+            </div>
+          </div>
+          <div style={{marginLeft:showOptions ? "61vw" : "78vw"}}>
+            <button onClick={handleLogout}>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              <span> Logout</span>
+            </button>
+          </div>
+        </div>
+        <div>
+          {selectedOption ? (
+            <div className='selected-option'>
+              <AdminComponent option={selectedOption} />
+            </div>
+          ) : (
+            <div style={{ padding: '20px',
+              marginLeft:'30px',
+              marginTop: '50px',
+              backgroundColor: '#f4f4f4',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              width: '1000px', 
+            }}>
+              <h1>Welcome to the Admin Dashboard</h1>
+              <p>Manage Officers and parking activities with ease!</p>
+              <p>Select an option from the menu to get started!</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  );
-};
+  )
 
-export default MainAdminPage;
+  }
 
-
-
-
+export default AdminPage

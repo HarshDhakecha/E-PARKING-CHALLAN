@@ -499,6 +499,19 @@ const [selectedSection, setSelectedSection] = useState(null);
 
     </>
         )}
+
+{option.option === "DashBoard" && (
+    <>
+     <div className="default-content">
+            <h1>Welcome to the Admin Dashboard</h1>
+            <p>Manage Officers and parking activities with ease!</p>
+            <p>Select an option from the menu to get started!</p>
+          </div>
+      
+
+    </>
+        )}
+
     </div>
   );
 };
