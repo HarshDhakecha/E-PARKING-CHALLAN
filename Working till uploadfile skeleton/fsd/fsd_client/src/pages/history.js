@@ -265,12 +265,12 @@ const History = () => {
   };
 
   return (
-    <div>
+    <div >
       <MainNavbar />
       <Navbar2 />
 
-      <div className="container mt-3">
-        <div className="mb-3 d-flex justify-content-between align-items-center">
+      <div className="container mt-3" style={{marginLeft:'130px'}}>
+        <div className="mb-3 d-flex justify-content-between align-items-center" style={{ marginLeft: '150px'}}>
           <div>
             <button
               className="btn btn-info"

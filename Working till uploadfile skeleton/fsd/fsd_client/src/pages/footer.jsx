@@ -6,17 +6,17 @@ import { faHome, faEnvelope, faPhone, faPrint } from '@fortawesome/free-solid-sv
 
 export default function Footer() {
   return (
-    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted' >
    
 
       <section className=''>
-        <MDBContainer className='text-center text-md-start mt-5 ' >
+        <MDBContainer className='text-center text-md-start mt-5 ' style={{ marginLeft: '150px'}}>
           
             <MDBCol md="4" lg="3" xl="10" className='text-center mx-auto mb-md-0 mb-4'>
             
                <p>
                 <FontAwesomeIcon icon={faHome} className="me-3" />
-                New Delhi, IND 10012, India
+                Surat, IND 10012, India
               </p>
               <p>
                 <FontAwesomeIcon icon={faEnvelope} className="me-3" />
@@ -32,7 +32,7 @@ export default function Footer() {
                 +01 234 567 89
               </p>
               <p>
-              Designed, Developed & Hosted by : National Informatics Centre- All Rights Reserved Privacy Policy
+              Designed, Developed & Hosted by :Om Oslaniy & Dax Padaliya
               </p>
 
             </MDBCol>

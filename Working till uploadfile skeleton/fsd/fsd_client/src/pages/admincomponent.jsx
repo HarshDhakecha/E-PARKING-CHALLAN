@@ -9,6 +9,7 @@ const AdminComponent = (option) => {
   const [detailsData, setDetailsData] = useState([]);
   const [admins, setadmins] = useState([]);
   const [username, setUsername] = useState(null);
+  const [sending, setSending] = useState(false); 
   const [searchUsername, setSearchUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [showDetailsData, setshowDetailsData] = useState(false);
@@ -203,6 +204,19 @@ const [selectedSection, setSelectedSection] = useState(null);
   };
 
   const handleAddVehicle = async () => {
+
+    if (
+      !addVehicleForm.name ||
+      !addVehicleForm.no_plate ||
+      !addVehicleForm.email ||
+      !addVehicleForm.vehicle_type ||
+      !addVehicleForm.address ||
+      !addVehicleForm.date_of_birth
+    ) {
+      window.alert("Please fill in all fields.");
+      return;
+    }
+    
     console.log("enter");
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/addvehicledetail`,
@@ -275,12 +289,46 @@ const [selectedSection, setSelectedSection] = useState(null);
     setAnnouncementBody(e.target.value);
   };
 
-  const handleSendAnnouncement = () => {
-    // Add logic to send announcement (e.g., API call)
-    // Reset form after sending announcement
-    setAnnouncementTitle("");
-    setAnnouncementBody("");
+  const handleSendAnnouncement = async () => {
+    const confirmed = window.confirm("Are you sure you want to send this announcement?");
+
+    if (confirmed) {
+
+    try {
+      setSending(true); 
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/sendAnnouncementMailMainAdmin`,
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: announcementTitle,
+            body: announcementBody,
+          }),
+        }
+      );
+  
+      const data = await response.json();
+      console.log(data);
+
+      window.alert("Announcement Mail sent successfully!");
+    } catch (error) {
+      console.error("Error sending announcement:", error);
+      window.alert("Failed to send announcement. Please try again later.");
+    }finally {
+      setSending(false); 
+    }
+  }
   };
+
+  const Loader = () => (
+    <div className="loader-overlay">
+      <ClipLoader color="#3498db" loading={true} size={50} />
+    </div>
+  );
 
   return (
     <div className="container">
@@ -463,7 +511,7 @@ const [selectedSection, setSelectedSection] = useState(null);
             />
 
             <button type="button" onClick={handleAddVehicle}>
-              Add Vehicle Detail
+              Register Vehicle
             </button>
           </form>
         </div>
@@ -492,8 +540,12 @@ const [selectedSection, setSelectedSection] = useState(null);
               placeholder="Enter announcement mail body..."
             />
 
-            <button onClick={handleSendAnnouncement}>Send Announcement</button>
-          </div>
+              <div className="button-container">
+              <button className="announcement-button" onClick={handleSendAnnouncement} disabled={sending}>
+                {sending ? 'Sending...' : 'Send Announcement'}
+              </button>
+              {sending && <Loader />}
+            </div>          </div>
         
       
 

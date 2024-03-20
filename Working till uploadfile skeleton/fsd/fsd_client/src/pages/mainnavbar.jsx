@@ -10,6 +10,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { faUpload, faEye, faChartBar, faQuestion,faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import './mainnavbar.css'; 
+import logo from'./logo.png'
 let LOGOUT_TIME=3600000;
 
 
@@ -91,7 +92,7 @@ const MainNavbar = () => {
   return (
     <header className='mainheader'>
 			 <div className="logo-container">
-                <h1>LOGO</h1>
+       <img src={logo} style={{ width: '80px' }} alt="logo" /> 
              <div className="text-container">
                  <span className="additional-text">E Parking Challan Administry</span>
                     <div className="additional-text-container">

@@ -6,6 +6,8 @@ import { jwtDecode } from 'jwt-decode';
 import './SignIn.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { email } from "./forgotPassword";
+import logo from'./logo.png'
+
 import {
   MDBBtn,
   MDBContainer,
@@ -68,13 +70,13 @@ export default function NewPassword() {
       };
   
   return (
-    <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '50px' }}>
+    <MDBContainer className="my-10 gradient-form" style={{ marginLeft: '130px',marginTop:'50px' }}>
         <MDBRow>
             <MDBCol col='10' className="mb-5">
                 <div className="d-flex flex-column ms-10">
                     <div className="text-center">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                            style={{ width: '185px' }} alt="logo" />
+                        <img src={logo}
+                            style={{ width: '105px' }} alt="logo" />
                         <h4 className="mt-1 mb-5 pb-1">No Parking Administry Team</h4>
                     </div>
 

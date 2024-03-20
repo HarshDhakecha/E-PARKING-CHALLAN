@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './memo_login.css'; // Import the CSS file
 import {Link, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import logo from'./logo.png'
+
 import {
   MDBBtn,
   MDBContainer,
@@ -82,7 +84,7 @@ const PostData = async (e) => {
 };
 
   return (
-    <MDBContainer className="my-10 gradient-form signin" style={{ marginLeft: '50px' }}>
+    <MDBContainer className="my-10 gradient-form signin" style={{ marginLeft: '130px',marginTop:'50px' }}>
 
       <MDBRow>
 
@@ -90,8 +92,8 @@ const PostData = async (e) => {
           <div className="d-flex flex-column ms-10">
 
             <div className="text-center">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                style={{width: '185px'}} alt="logo" />
+              <img src={logo}
+                style={{width: '105px'}} alt="logo" />
               <h3 className="mt-1 mb-5 pb-1">No Parking Administry</h3>
             </div>
 

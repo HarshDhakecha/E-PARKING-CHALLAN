@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import './SignIn.css'
 import "bootstrap/dist/css/bootstrap.min.css";
+import logo from'./logo.png'
 import {
   MDBBtn,
   MDBContainer,
@@ -119,8 +120,8 @@ export default function Signin() {
           <div className="d-flex flex-column ms-10">
 
             <div className="text-center">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                style={{width: '185px'}} alt="logo" />
+              <img src={logo}
+                style={{width: '105px'}} alt="logo" />
               <h3 className="mt-1 mb-5 pb-1">No Parking Administry</h3>
             </div>
 

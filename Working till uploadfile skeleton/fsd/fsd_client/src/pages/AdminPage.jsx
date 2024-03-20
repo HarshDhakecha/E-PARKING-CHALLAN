@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons'
 import { motion } from 'framer-motion'
 import logo from './menu.png'
+import icon from './logo.png'
 import {
   faUser,
   faChalkboardTeacher,
@@ -103,63 +104,114 @@ const AdminPage = () => {
       >
         {showOptions && (
           <div>
-            <div style={{height: '9vh',
-    fontSize: '25px',
-    justifyContent: 'center',
-    backgroundColor: 'antiquewhite'}}>E-Parking Challan</div>
+            <div
+              style={{
+                height: '9vh',
+                fontSize: '18px',
+                justifyContent: 'center',
+                backgroundColor: 'beige',
+                justifyContent: 'center',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <img style={{ width: '45px', height: '45px' }} src={icon}></img>
+              E-Parking Challan
+            </div>
             <div
               className='option-container'
+              style={{
+                backgroundColor:
+                  selectedOption === 'ManageOfficers'
+                    ? 'rgb(39, 38, 38)'
+                    : 'transparent'
+              }}
               onClick={() => handleOptionClick('ManageOfficers')}
             >
               Manage Officers
             </div>
             <div
               className='option-container'
+              style={{
+                backgroundColor:
+                  selectedOption === 'AnnouncementMail'
+                    ? 'rgb(39, 38, 38)'
+                    : 'transparent'
+              }}
               onClick={() => handleOptionClick('AnnouncementMail')}
             >
               AnnouncementMail
             </div>
             <div
               className='option-container'
+              style={{
+                backgroundColor:
+                  selectedOption === 'Report'
+                    ? 'rgb(39, 38, 38)'
+                    : 'transparent'
+              }}
               onClick={() => handleOptionClick('Report')}
             >
               Report
+            </div>
+            <div>
+              <button onClick={handleLogout} style={{marginTop:"53vh",marginLeft:"4.5vw"}}>
+                <FontAwesomeIcon icon={faSignOutAlt} />
+                <span> Logout</span>
+              </button>
             </div>
           </div>
         )}
       </motion.div>
       <div className='click-container'>
         <div className='navigation-container'>
-          <div style={{display:"flex"}}>
+          <div style={{ display: 'flex' }}>
+            {!showOptions &&
+              <div
+              style={{
+                height: '8vh',
+                width: '15vw',
+                fontSize: '18px',
+                justifyContent: 'center',
+                backgroundColor: 'beige',
+                justifyContent: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft:"0.5vw"
+              }}
+            >
+              <img style={{ width: '45px', height: '45px' }} src={icon}></img>
+              E-Parking Challan
+            </div>
+
+            }
+            <div
+              style={{
+                fontSize: '25px',
+                paddingTop: '1vh',
+                cursor: 'pointer',
+                marginLeft: showOptions ? '70vw' : '71.5vw'
+              }}
+              onClick={() => handleOptionClick('DashBoard')}
+            >
+              Dashboard
+            </div>
             <div
               onClick={handleImageClick}
               style={{
                 width: 50,
                 height: 50,
                 display: 'flex',
-                
+
                 cursor: 'pointer'
               }}
             >
-              <img src={logo} alt='Logo' style={{width:"2vw",height:"4vh",margin:"2vh"}} />
+              <img
+                src={logo}
+                alt='Logo'
+                style={{ width: '2vw', height: '4vh', margin: '2vh' }}
+              />
             </div>
-            <div
-              style={{
-                fontSize: '25px',
-                paddingTop: '1vh',
-                cursor: 'pointer',
-                marginLeft: '1vw'
-              }}
-              onClick={() => handleOptionClick('DashBoard')}
-            >
-              Dashboard
-            </div>
-          </div>
-          <div style={{marginLeft:showOptions ? "61vw" : "78vw"}}>
-            <button onClick={handleLogout}>
-              <FontAwesomeIcon icon={faSignOutAlt} />
-              <span> Logout</span>
-            </button>
           </div>
         </div>
         <div>
@@ -168,14 +220,17 @@ const AdminPage = () => {
               <GenralComponent option={selectedOption} />
             </div>
           ) : (
-            <div style={{ padding: '20px',
-              marginLeft:'30px',
-              marginTop: '50px',
-              backgroundColor: '#f4f4f4',
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              width: '1000px', 
-            }}>
+            <div
+              style={{
+                padding: '20px',
+                marginLeft: '30px',
+                marginTop: '50px',
+                backgroundColor: '#f4f4f4',
+                borderRadius: '8px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                width: '1000px'
+              }}
+            >
               <h1>Welcome to the Admin Dashboard</h1>
               <p>Manage Officers and parking activities with ease!</p>
               <p>Select an option from the menu to get started!</p>
@@ -185,7 +240,6 @@ const AdminPage = () => {
       </div>
     </div>
   )
-
-  }
+}
 
 export default AdminPage

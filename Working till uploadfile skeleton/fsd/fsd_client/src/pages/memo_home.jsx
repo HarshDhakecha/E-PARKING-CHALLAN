@@ -224,9 +224,9 @@ const Memo_home = () => {
     <div>
     <MainNavbar/>
     <Navbar/>
-    <div className='container flex-grow-1 mt-5'>
-  <div className='row'>
-    <div className='col-md-4 mx-auto mb-3'>
+    <div className='container flex-grow-1 mt-5' style={{ marginLeft: '130px'}}>
+       <div className='row' >
+        <div className='col-md-4 mx-auto mb-3' >
       <div className='card card-view-memo shadow p-3 bg-white rounded w-100 d-flex flex-column align-items-center'>
         <div className='card-body flex-grow-1 d-flex flex-column align-items-center'>
           <FontAwesomeIcon icon={faEye} className='card-icon' size='2x' />

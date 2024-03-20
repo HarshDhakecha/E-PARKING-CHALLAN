@@ -86,3 +86,13 @@
 .show-officers-button:hover {
     background-color: #297fb8;
 }
+
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+.announcement-button {
+    margin-right: 10px;
+    /* Adjust as needed */
+}

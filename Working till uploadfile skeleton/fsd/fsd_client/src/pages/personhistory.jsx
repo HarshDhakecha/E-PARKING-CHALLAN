@@ -126,7 +126,7 @@ const handleDownloadReceipt = (obj) => {
     <MainNavbar />
     <Navbar />
 
-    <div className="container mt-3">
+    <div className="container mt-3" style={{ marginLeft: '150px'}}>
 
       <table className="table">
         <thead>
@@ -158,6 +158,7 @@ const handleDownloadReceipt = (obj) => {
     ) : (
       <i className="bi bi-plus"></i>
     )}
+    
   </button>
   {obj.flag === 'true' && (
     <button
