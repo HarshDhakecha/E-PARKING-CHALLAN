@@ -79,7 +79,7 @@ const Navbar = () => {
        <nav ref={navRef}>
       <Link to="/memo_home">Dashboard</Link>
       <Link to="/faq">FAQ'S</Link>
-      <Link to="/blog">Blog</Link>
+      
       <Link to="/contact">Contact Us</Link>
       <button
         className="nav-btn nav-close-btn"

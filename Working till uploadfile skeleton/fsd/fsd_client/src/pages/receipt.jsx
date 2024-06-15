@@ -4,6 +4,9 @@ import { no_plate } from './memo_login';
 import './receipt.css'; // Import your CSS file
 import { jsPDF } from 'jspdf';
 import { mdate, pdate,tno,rno,mno } from './memo_home';
+import MainNavbar from './mainnavbar';
+import Navbar from './navbar';
+import Footer from './footer';
 
 
 const Receipt = () => {
@@ -115,6 +118,8 @@ const Receipt = () => {
   };
   return (
     <div>
+    <MainNavbar/>
+    <Navbar/>
       <div className="receipt-container" ref={receiptContainerRef}>
         <h3>Payment Receipt</h3>
         <h5>Ministry of No Parking Violation</h5>
@@ -137,6 +142,7 @@ const Receipt = () => {
       <div className="button-container">
         <button onClick={handleDownload}>Download</button>
       </div>
+      <Footer/>
     </div>
   );
 };

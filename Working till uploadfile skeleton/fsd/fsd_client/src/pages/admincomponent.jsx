@@ -352,7 +352,7 @@ const [selectedSection, setSelectedSection] = useState(null);
       {showAddOfficerForm && (
         <div className="add-officer-form">
           <h3>Add Single Admin</h3>
-          <form>
+          <form > 
           <label>Admin Name:</label>
             <input
               type="text"

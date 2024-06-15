@@ -46,7 +46,7 @@ p strong {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #4ca5e1;
     color: #fff;
     padding: 10px 20px;
     font-size: 16px;
@@ -57,4 +57,9 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
 }

@@ -32,7 +32,7 @@ export default function Footer() {
                 +01 234 567 89
               </p>
               <p>
-              Designed, Developed & Hosted by :Om Oslaniy & Dax Padaliya
+              Designed, Developed & Hosted by :Harsh,Meet & Aditya
               </p>
 
             </MDBCol>
